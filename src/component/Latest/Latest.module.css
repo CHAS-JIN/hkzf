@@ -1,0 +1,54 @@
+.latestCont {
+  width: 100%;
+}
+.latestCont .latestWrap {
+  height: 400rem;
+  width: 100%;
+  padding: 30rem 40rem;
+  background-color: #fff;
+}
+.latestCont .latestWrap p {
+  font-weight: bold;
+  font-size: 30rem;
+}
+.latestCont .latestWrap .latestItems {
+  margin: 10rem;
+}
+.latestCont .latestWrap .latestItems .itemWrap {
+  height: 220rem;
+  padding: 20rem 0;
+  border-bottom: solid 2px #eff2ef;
+}
+.latestCont .latestWrap .latestItems .itemWrap .item {
+  height: 100%;
+  width: 100%;
+  margin-bottom: 40rem;
+  display: flex;
+}
+.latestCont .latestWrap .latestItems .itemWrap .item .itemImg {
+  height: 100%;
+  width: 250rem;
+  background-size: cover;
+  margin-right: 20rem;
+}
+.latestCont .latestWrap .latestItems .itemWrap .item .itemDesc {
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.latestCont .latestWrap .latestItems .itemWrap .item .itemTitle {
+  height: 100rem;
+  font-size: 30rem;
+  font-weight: bold;
+}
+.latestCont .latestWrap .latestItems .itemWrap .item .itemBottom {
+  display: flex;
+  justify-content: space-between;
+}
+.latestCont .latestWrap .latestItems .itemWrap .item .itemBottom p {
+  font-size: 25rem;
+  color: #a1a3a1;
+  font-weight: normal;
+}
+/*# sourceMappingURL=./Latest.module.css.map */

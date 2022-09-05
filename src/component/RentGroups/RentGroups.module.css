@@ -1,0 +1,41 @@
+.groupCont {
+  width: 100%;
+  padding: 20rem;
+}
+.groupCont .groupWrap {
+  height: 100%;
+  width: 100%;
+}
+.groupCont .groupWrap .groupHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 30rem;
+}
+.groupCont .groupWrap .groupHead p {
+  margin-left: 20rem;
+  font-weight: bold;
+}
+.groupCont .groupWrap .groupHead span {
+  color: #7c8887;
+}
+.groupCont .groupWrap .groupItems {
+  margin-top: 20rem;
+}
+.groupCont .groupWrap .groupItems .card {
+  height: 180rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.groupCont .groupWrap .groupItems .card h2 {
+  font-size: 28rem;
+}
+.groupCont .groupWrap .groupItems .card p {
+  font-size: 24rem;
+  color: #7c8887;
+}
+.groupCont .groupWrap .groupItems .card img {
+  height: 130rem;
+}
+/*# sourceMappingURL=./RentGroups.module.css.map */

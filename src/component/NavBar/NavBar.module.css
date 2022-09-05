@@ -1,0 +1,23 @@
+.navBarCont {
+  height: 150rem;
+  background-color: #fff;
+}
+.navBarCont .navBarWrap {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+.navBarCont .navBarWrap .navBarItem {
+  height: 100%;
+  width: 120rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.navBarCont .navBarWrap .navBarItem img {
+  width: 60%;
+  margin-bottom: 10rem;
+}
+/*# sourceMappingURL=./NavBar.module.css.map */
