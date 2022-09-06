@@ -1,4 +1,5 @@
 import { useRoutes, useNavigate, useLocation } from 'react-router-dom'
+
 import { TabBar } from 'antd-mobile'
 import {
 	AppOutline,
@@ -6,8 +7,6 @@ import {
 	UserOutline,
 	MessageOutline,
 } from 'antd-mobile-icons'
-
-
 
 import routes from './routes'
 import './App.css'

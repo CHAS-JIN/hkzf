@@ -10,9 +10,22 @@ const cityInfoApi = createApi({
 					return `/area/info?name=${cityname}`
 				},
 			}),
+			getCityList: build.query({
+				query() {
+					return `/area/city?level=1`
+				},
+			}),
+			getHotCityList: build.query({
+				query() {
+					return `/area/hot`
+				},
+			}),
 		}
 	},
 })
-export const { useGetCurCityInfoQuery } = cityInfoApi
-
+export const {
+	useGetCurCityInfoQuery,
+	useGetCityListQuery,
+	useGetHotCityListQuery,
+} = cityInfoApi
 export default cityInfoApi
