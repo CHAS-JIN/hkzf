@@ -1,9 +1,11 @@
 .mapCont {
   height: 100%;
   width: 100%;
-  background-color: #aaa;
-  position: absolute;
+  background-color: #fff;
+  position: fixed;
   top: 0;
-  font-size: 80rem;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
 /*# sourceMappingURL=./Map.module.css.map */

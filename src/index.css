@@ -28,6 +28,7 @@ ul {
 html,
 body,
 #root,
+#map-root,
 .App {
   height: 100%;
 }

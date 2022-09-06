@@ -1,10 +1,14 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import '../../assets/fonts/iconfont.css'
 import styles from './SearchBar.module.css'
 
 const SearchBar = () => {
+	const curCityInfo = useSelector(state => state.curCityInfo)
+	const { label } = curCityInfo
+
 	const navigate = useNavigate()
 	const changePage = value => {
 		navigate(value)
@@ -18,7 +22,7 @@ const SearchBar = () => {
 						className={styles.location}
 						onClick={() => changePage('/citylist')}
 					>
-						<span>上海</span>
+						<span>{label}</span>
 						<i className="iconfont icon-arrow" style={{ fontSize: '20rem' }} />
 					</div>
 

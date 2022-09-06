@@ -10,6 +10,7 @@
     "antd-mobile": "^5.22.0",
     "antd-mobile-icons": "^0.3.0",
     "react": "^18.2.0",
+    "react-bmapgl": "^0.2.7",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
