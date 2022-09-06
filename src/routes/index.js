@@ -15,6 +15,20 @@ const routes = [
 	{
 		path: '/home',
 		element: <Home />,
+		// children: [
+		// 	{
+		// 		path: 'houselist',
+		// 		element: <HouseList />,
+		// 	},
+		// 	{
+		// 		path: 'news',
+		// 		element: <News />,
+		// 	},
+		// 	{
+		// 		path: 'profile',
+		// 		element: <Profile />,
+		// 	},
+		// ],
 	},
 	{
 		path: '/houselist',

@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react'
-import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { NavBar } from 'antd-mobile'
 
 import styles from './Map.module.css'
+import Backdrop from './../../utils/Backdrop/Backdrop'
 
-const mapRoot = document.getElementById('map-root')
 
 const Map = () => {
 	const curCityInfo = useSelector(state => state.curCityInfo)
@@ -25,14 +24,15 @@ const Map = () => {
 		map.addControl(zoomCtrl)
 		map.centerAndZoom(point, 15)
 	})
-
-	return createPortal(
-		<div className={styles.mapCont}>
-			<NavBar onBack={goBack}>地图找房</NavBar>
-			<div id="container" style={{ height: '100%' }}></div>
-		</div>
-		,mapRoot
+	return (
+		<Backdrop>
+			<div className={styles.mapCont}>
+				<NavBar onBack={goBack}>地图找房</NavBar>
+				<div id="container" style={{ height: '100%' }}></div>
+			</div>
+		</Backdrop>
 	)
+
 }
 
 export default Map
