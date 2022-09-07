@@ -1,10 +1,54 @@
-.mapCont {
-    height: 100%;
-    width: 100%;
-    background-color: #fff;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
+/* 区、镇覆盖物 */
+.bubble {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(12, 181, 106, 0.9);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+}
+
+/* 小区覆盖物 */
+
+.rect {
+    height: 20px;
+    line-height: 19px;
+    width: 100px;
+    padding: 0 3px;
+    border-radius: 3px;
+    background: rgba(12, 181, 106, 0.9);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.arrow {
+    display: block;
+    width: 0;
+    height: 0;
+    margin: auto 0;
+    border: 4px solid transparent;
+    border-top-width: 4px;
+    border-top-color: #fff;
+    position: relative;
+    top: 4px;
+}
+
+.housename {
+    display: inline-block;
+    width: 35px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.housenum {
+    width: 20px;
+    margin-right: 15px;
 }

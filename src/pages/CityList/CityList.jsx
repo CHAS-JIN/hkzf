@@ -97,7 +97,10 @@ const CityList = props => {
 	return (
 		<Backdrop>
 			<div className={styles.cityCont}>
-				<NavBar onBack={toggleCityList} style={{ backgroundColor: '#f6f5f6' }}>
+				<NavBar
+					onBack={toggleCityList}
+					style={{ backgroundColor: '#f6f5f6', '--height': '5%' }}
+				>
 					城市列表
 				</NavBar>
 				<div style={{ height: '100%' }}>
