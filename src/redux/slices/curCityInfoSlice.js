@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const curCityInfoSlice = createSlice({
 	name: 'curCityInfoSlice',
 	initialState: {
-		label: '北京',
-		value: 'AREA|88cff55c-aaa4-e2e0'
+		label: null,
+		value: null
 	},
 	reducers: {
 		updCurCityInfo: (state, action) => {

@@ -1,27 +1,39 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useSelector,useDispatch } from 'react-redux'
-import { NavBar, IndexBar, List, SpinLoading } from 'antd-mobile'
-import {
-	useGetCityListQuery,
-	useGetHotCityListQuery,
-} from '../../redux/api/cityInfoApi'
+import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { NavBar, IndexBar, List, SpinLoading, Toast } from 'antd-mobile'
 import { updCurCityInfo } from '../../redux/slices/curCityInfoSlice'
 
 import styles from './CityList.module.css'
 import Backdrop from './../../utils/Backdrop/Backdrop'
+import axios from 'axios'
 
-const CityList = () => {
+const CityList = props => {
 	const dispatch = useDispatch()
-	const navigate = useNavigate()
+	const toggleCityList = props.toggleCityList
 
-	const goBack = () => {
-		navigate(-1)
+	// 获取当前城市数据
+	const curCity = useSelector(state => state.curCityInfo)
+
+	const [allCityList, setAllCityList] = useState(null)
+	const [hotCityList, setHotCityList] = useState(null)
+
+	// 组件挂载请求所有城市、热门城市列表数据
+	useEffect(() => {
+		getAllCityList()
+		getHotCityList()
+	}, [])
+
+	// 请求所有城市列表数据函数
+	async function getAllCityList() {
+		const result = await axios.get(`http://localhost:8080/area/city?level=1`)
+		setAllCityList(result.data.body)
 	}
 
-	const { data: allCity, isSuccess, isLoading } = useGetCityListQuery()
-	const { data: hotCity } = useGetHotCityListQuery()
-	const curCity = useSelector(state => state.curCityInfo)
+	// 请求热门城市列表数据函数
+	async function getHotCityList() {
+		const result = await axios.get(`http://localhost:8080/area/hot`)
+		setHotCityList(result.data.body)
+	}
 
 	// 格式化数据
 	const formatData = list => {
@@ -44,9 +56,9 @@ const CityList = () => {
 	}
 
 	// 创建列表对象数组
-	let groups
-	if (isSuccess) {
-		const { cityList, cityIndex } = formatData(allCity.body)
+	let groups = null
+	if (allCityList && hotCityList) {
+		const { cityList, cityIndex } = formatData(allCityList)
 		groups = Array(cityIndex.length)
 			.fill('')
 			.map((_, i) => ({
@@ -63,39 +75,53 @@ const CityList = () => {
 			{
 				index: '热门城市',
 				title: '热门城市',
-				items: hotCity.body,
+				items: hotCityList,
 			}
 		)
 	}
 
 	// 切换城市
+	const HOUSE_CITY = ['北京', '上海', '广州', '深圳']
 	const changeCity = cityInfo => {
-		dispatch(updCurCityInfo(cityInfo))
-		goBack()
+		const { label } = cityInfo
+		if (HOUSE_CITY.indexOf(label) > -1) {
+			dispatch(updCurCityInfo(cityInfo))
+			toggleCityList()
+		} else {
+			Toast.show({
+				content: '该城市暂无房源',
+			})
+		}
 	}
 
 	return (
 		<Backdrop>
 			<div className={styles.cityCont}>
-				<NavBar onBack={goBack} style={{ backgroundColor: '#f6f5f6' }}>
+				<NavBar onBack={toggleCityList} style={{ backgroundColor: '#f6f5f6' }}>
 					城市列表
 				</NavBar>
 				<div style={{ height: '100%' }}>
-					{isLoading && (
+					{/* 加载中 */}
+					{!groups && (
 						<div className={styles.loading}>
 							<SpinLoading style={{ '--size': '100rem' }} />
 						</div>
 					)}
 
+					{/* 列表项 */}
 					<IndexBar>
-						{isSuccess &&
+						{groups &&
 							groups.map(group => {
 								const { title, items, index } = group
 								return (
 									<IndexBar.Panel index={index} title={title} key={title}>
 										<List>
 											{items.map(item => (
-												<List.Item key={item.value} onClick={()=>changeCity(item)} arrow={false}>
+												<List.Item
+													key={item.value}
+													onClick={() => changeCity(item)}
+													arrow={false}
+												>
 													{item.label}
 												</List.Item>
 											))}

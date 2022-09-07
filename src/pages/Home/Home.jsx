@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Swipers from '../../component/Swipers/Swipers'
 import NavBar from './../../component/NavBar/NavBar'
 import RentGroups from './../../component/RentGroups/RentGroups'

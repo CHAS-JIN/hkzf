@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd-mobile": "^5.22.0",
     "antd-mobile-icons": "^0.3.0",
+    "axios": "^0.27.2",
     "react": "^18.2.0",
     "react-bmapgl": "^0.2.7",
     "react-dom": "^18.2.0",

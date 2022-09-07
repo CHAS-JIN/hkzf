@@ -41,7 +41,7 @@ const NavBar = () => {
 					<span>地图找房</span>
 				</div>
 
-				<div className={styles.navBarItem} onClick={() => changPage('chuzu')}>
+				<div className={styles.navBarItem} onClick={() => changPage('/chuzu')}>
 					<img src={nav4} alt="chuzu" />
 					<span>去出租</span>
 				</div>

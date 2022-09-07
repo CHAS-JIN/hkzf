@@ -1,24 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Swiper } from 'antd-mobile'
-import { useGetHomeSwiperQuery } from '../../redux/api/swiperApi'
+import axios from 'axios'
 
 const Swipers = () => {
-	const { data, isSuccess } = useGetHomeSwiperQuery()
+	const [swiper, setSwiper] = useState(null)
+	// 组件挂载请求轮播图数据
+	useEffect(() => {
+		getSwiper()
+	}, [])
+	// 请求轮播图数据函数
+	async function getSwiper() {
+		const result = await axios.get(`http://localhost:8080/home/swiper`)
+		setSwiper(result.data.body)
+	}
 
 	return (
 		<div>
-			{isSuccess && (
+			{swiper && (
 				<Swiper autoplay loop>
-					{data.body.map(m => (
+					{swiper.map(m => (
 						<Swiper.Item key={m.id}>
 							<div
 								style={{
 									height: '400rem',
 									backgroundImage: `url(http://localhost:8080${m.imgSrc})`,
-									backgroundSize:'cover'
+									backgroundSize: 'cover',
 								}}
-							>
-							</div>
+							></div>
 						</Swiper.Item>
 					))}
 				</Swiper>

@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 
 const backdropRoot = document.getElementById('backdrop-root');
 
+// 蒙板组件
 const Backdrop = (props) => {
     return ReactDOM.createPortal(<div
         {...props}
