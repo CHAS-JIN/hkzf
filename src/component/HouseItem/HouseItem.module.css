@@ -1,0 +1,59 @@
+.item {
+  height: 200rem;
+  margin: 0 -12px 20rem;
+  padding: 12px;
+  display: flex;
+}
+.item .itemImg {
+  flex-shrink: 0;
+  height: 100%;
+  width: 220rem;
+  margin-right: 25rem;
+}
+.item .itemImg img {
+  width: 100%;
+}
+.item .itemDetail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.item .itemDetail .itemTitle h2 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 430rem;
+  font-size: 32rem;
+}
+.item .itemDetail .itemDesc {
+  color: #aaa;
+}
+.item .itemDetail .itemPrice span {
+  font-size: 32rem;
+  font-weight: bold;
+  color: #e35d4d;
+}
+.item .itemDetail .itemPrice ::after {
+  content: ' 元/月';
+  color: #e35d4d;
+  font-size: 22rem;
+}
+.tag1 {
+  color: #39becd;
+  background: #e1f5f8;
+  border-radius: 6px;
+  border: none;
+}
+.tag2 {
+  color: #3fc28c;
+  background: #e1f5ed;
+  border-radius: 6px;
+  border: none;
+}
+.tag3 {
+  color: #5aabfd;
+  background: #e6f2ff;
+  border-radius: 6px;
+  border: none;
+}
+/*# sourceMappingURL=./HouseItem.module.css.map */

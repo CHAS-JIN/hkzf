@@ -6,10 +6,11 @@ import { updCurCityInfo } from '../../redux/slices/curCityInfoSlice'
 import styles from './CityList.module.css'
 import Backdrop from './../../utils/Backdrop/Backdrop'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
-const CityList = props => {
+const CityList = () => {
 	const dispatch = useDispatch()
-	const toggleCityList = props.toggleCityList
+	const navigate = useNavigate()
 
 	// 获取当前城市数据
 	const curCity = useSelector(state => state.curCityInfo)
@@ -22,6 +23,11 @@ const CityList = props => {
 		getAllCityList()
 		getHotCityList()
 	}, [])
+
+	// 返回首页
+	const back = () => {
+		navigate(-1)
+	}
 
 	// 请求所有城市列表数据函数
 	async function getAllCityList() {
@@ -86,7 +92,7 @@ const CityList = props => {
 		const { label } = cityInfo
 		if (HOUSE_CITY.indexOf(label) > -1) {
 			dispatch(updCurCityInfo(cityInfo))
-			toggleCityList()
+			back()
 		} else {
 			Toast.show({
 				content: '该城市暂无房源',
@@ -97,10 +103,7 @@ const CityList = props => {
 	return (
 		<Backdrop>
 			<div className={styles.cityCont}>
-				<NavBar
-					onBack={toggleCityList}
-					style={{ backgroundColor: '#f6f5f6', '--height': '5%' }}
-				>
+				<NavBar onBack={back} style={{ backgroundColor: '#f6f5f6' }}>
 					城市列表
 				</NavBar>
 				<div style={{ height: '100%' }}>

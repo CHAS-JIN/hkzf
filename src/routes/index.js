@@ -3,6 +3,9 @@ import HouseList from './../pages/HouseList/HouseList';
 import Home from './../pages/Home/Home'
 import News from './../pages/News/News';
 import Profile from './../pages/Profile/Profile';
+import CityList from './../pages/CityList/CityList';
+import Search from './../pages/Search/Search';
+import Map from "../pages/Map/Map";
 
 const routes = [
 	{
@@ -24,6 +27,18 @@ const routes = [
 	{
 		path: '/profile',
 		element: <Profile />,
+	},
+	{
+		path: '/citylist',
+		element: <CityList />,
+	},
+	{
+		path: '/search',
+		element: <Search />,
+	},
+	{
+		path: '/map',
+		element: <Map />,
 	}
 ]
 
