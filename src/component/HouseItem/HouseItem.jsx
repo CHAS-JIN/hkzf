@@ -1,5 +1,5 @@
 import { Card, Tag } from 'antd-mobile'
-import React, { useRef } from 'react'
+import React from 'react'
 
 import styles from './HouseItem.module.css'
 

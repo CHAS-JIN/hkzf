@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updCurCityInfo } from '../../redux/slices/curCityInfoSlice'
-import CityList from './../../pages/CityList/CityList'
-import Search from './../../pages/Search/Search'
-import Map from './../../pages/Map/Map'
 
 import axios from 'axios'
 

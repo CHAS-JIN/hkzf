@@ -34,11 +34,6 @@ function App() {
 			icon: <EnvironmentOutline />,
 		},
 		{
-			key: '/news',
-			title: '资讯',
-			icon: <MessageOutline />,
-		},
-		{
 			key: '/profile',
 			title: '我的',
 			icon: <UserOutline />,

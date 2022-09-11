@@ -12,7 +12,7 @@ import HouseItem from './../../component/HouseItem/HouseItem'
 const Map = () => {
 	const navigate = useNavigate()
 
-	// 获取当前城市 label
+	// 获取当前城市 label value
 	const { label, value } = useSelector(state => state.curCityInfo)
 
 	// 是否展示房屋信息列表状态
@@ -37,6 +37,7 @@ const Map = () => {
 	useEffect(() => {
 		initMap()
 		return () => {
+			// eslint-disable-next-line react-hooks/exhaustive-deps
 			myMap = null
 		}
 	}, [])

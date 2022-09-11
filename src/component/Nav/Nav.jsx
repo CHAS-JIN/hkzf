@@ -1,14 +1,14 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom';
 
-import styles from './NavBar.module.css'
+import styles from './Nav.module.css'
 
 import nav1 from '../../assets/images/nav-1.png'
 import nav2 from '../../assets/images/nav-2.png'
 import nav3 from '../../assets/images/nav-3.png'
 import nav4 from '../../assets/images/nav-4.png'
 
-const NavBar = () => {
+const Nav = () => {
 	const navigate = useNavigate()
 	const changPage = value => {
 		navigate(value,{replace:true})
@@ -50,4 +50,4 @@ const NavBar = () => {
 	)
 }
 
-export default NavBar
+export default Nav
