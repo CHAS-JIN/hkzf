@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { NavBar, IndexBar, List, SpinLoading, Toast } from 'antd-mobile'
+import { useNavigate } from 'react-router-dom'
+
 import { updCurCityInfo } from '../../redux/slices/curCityInfoSlice'
+import { API } from './../../utils/api'
+import Backdrop from './../../utils/Backdrop/Backdrop'
 
 import styles from './CityList.module.css'
-import Backdrop from './../../utils/Backdrop/Backdrop'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
 
 const CityList = () => {
 	const dispatch = useDispatch()
@@ -31,13 +32,17 @@ const CityList = () => {
 
 	// 请求所有城市列表数据函数
 	async function getAllCityList() {
-		const result = await axios.get(`http://localhost:8080/area/city?level=1`)
+		const result = await API.get(`/area/city`, {
+			params: {
+				level: 1,
+			},
+		})
 		setAllCityList(result.data.body)
 	}
 
 	// 请求热门城市列表数据函数
 	async function getHotCityList() {
-		const result = await axios.get(`http://localhost:8080/area/hot`)
+		const result = await API.get(`/area/hot`)
 		setHotCityList(result.data.body)
 	}
 

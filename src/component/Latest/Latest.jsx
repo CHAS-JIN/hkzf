@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
+
+import { API } from './../../utils/api'
+import { BASE_URL } from './../../utils/constant'
+
 import styles from './Latest.module.css'
-import axios from 'axios';
 
 const Latest = () => {
 	const [latest, setLatest] = useState(null)
@@ -10,9 +13,11 @@ const Latest = () => {
 	}, [])
 	// 请求最新资讯数据函数
 	async function getLatest() {
-		const result = await axios.get(
-			`http://localhost:8080/home/news?area=AREA%7C88cff55c-aaa4-e2e0`
-		)
+		const result = await API.get(`/home/news`, {
+			params: {
+				area: `AREA%7C88cff55c-aaa4-e2e0`,
+			},
+		})
 		setLatest(result.data.body)
 	}
 
@@ -30,7 +35,7 @@ const Latest = () => {
 										<div
 											className={styles.itemImg}
 											style={{
-												backgroundImage: `url(http://localhost:8080${m.imgSrc})`,
+												backgroundImage: `url(${BASE_URL}${m.imgSrc})`,
 											}}
 										></div>
 										<div className={styles.itemDesc}>

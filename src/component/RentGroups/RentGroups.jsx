@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Card } from 'antd-mobile'
+
+import { API } from './../../utils/api'
+
 import styles from './RentGroups.module.css'
-import axios from 'axios'
 
 const RentGroups = () => {
 	const [rentGroups, setRentGroups] = useState(null)
@@ -12,9 +14,11 @@ const RentGroups = () => {
 	}, [])
 	// 请求租房小组数据函数
 	async function getRentGroups() {
-		const result = await axios.get(
-			`http://localhost:8080/home/groups?area=AREA%7C88cff55c-aaa4-e2e0`
-		)
+		const result = await API.get(`/home/groups`, {
+			params: {
+				area: `AREA%7C88cff55c-aaa4-e2e0`,
+			},
+		})
 		setRentGroups(result.data.body)
 	}
 

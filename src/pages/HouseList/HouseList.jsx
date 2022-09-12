@@ -1,47 +1,59 @@
-import React, { useState } from 'react'
-import styles from './HouseList.module.css'
+import React from 'react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Toast } from 'antd-mobile'
+
 import SearchBar from './../../component/SearchBar/SearchBar'
 import HouseItem from './../../component/HouseItem/HouseItem'
-import { useEffect } from 'react'
-import axios from 'axios'
-import { useSelector } from 'react-redux'
-import Filter from './../../component/Filter/Filter';
+import Filter from './../../component/Filter/Filter'
+
+import { API } from './../../utils/api'
+import { updHouseInfo } from '../../redux/slices/houseListSlice'
+
+import styles from './HouseList.module.css'
 
 const HouseList = () => {
 	// 获取当前城市 value
 	const { value } = useSelector(state => state.curCityInfo)
-	// 存储房屋信息列表
-	const [houseInfo, setHouseInfo] = useState(null)
+	// 获取房屋信息列表
+	const { value: houseInfo } = useSelector(state => state.houseInfo)
+
+	const dispatch = useDispatch()
 
 	useEffect(() => {
 		fetchData()
 		// fetchFilterData()
 		return () => {}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	// 请求房源数据
 	async function fetchData() {
-		const result = await axios.get(
-			`http://localhost:8080/houses?cityId=${value}`
-		)
-		setHouseInfo(result)
+		Toast.show({
+			icon: 'loading',
+			content: '加载中…',
+		})
+		const result = await API.get(`/houses`,{
+			params:{
+				cityId:value
+			}
+		})
+		Toast.clear()
+		dispatch(updHouseInfo(result))
 	}
-
+	
 	return (
 		<div className={styles.cont}>
 			<div className={styles.top}>
 				<SearchBar />
 			</div>
 
-			<Filter value={value}/>
+			<Filter value={value} />
 
 			<div className={styles.items}>
 				{/* 列表项 */}
 				{houseInfo &&
-					houseInfo.data.body.list.map(item => (
-						<HouseItem data={item} key={item.houseCode} />
-					))}
+					houseInfo.data.body.list.map(item => <HouseItem data={item} key={item.houseCode} />)}
 			</div>
 		</div>
 	)

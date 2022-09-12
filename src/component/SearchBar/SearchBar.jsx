@@ -1,12 +1,12 @@
-import React, { useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updCurCityInfo } from '../../redux/slices/curCityInfoSlice'
+import { useNavigate } from 'react-router-dom'
 
-import axios from 'axios'
+import { updCurCityInfo } from '../../redux/slices/curCityInfoSlice'
+import { API } from './../../utils/api'
 
 import '../../assets/fonts/iconfont.css'
 import styles from './SearchBar.module.css'
-import { useNavigate } from 'react-router-dom'
 
 const SearchBar = () => {
 	const dispatch = useDispatch()
@@ -20,16 +20,18 @@ const SearchBar = () => {
 		const curCity = new window.BMapGL.LocalCity()
 		curCity.get(async res => {
 			cityName = res.name
-			const result = await axios.get(
-				`http://localhost:8080/area/info?name=${cityName}`
-			)
+			const result = await API.get(`/area/info`, {
+				params: {
+					name: cityName,
+				},
+			})
 			if (!cityLabel) {
 				dispatch(updCurCityInfo(result.data.body))
 			}
 		})
 	})
 
-	const changePage = (page) =>{
+	const changePage = page => {
 		navigate(page)
 	}
 
@@ -46,10 +48,7 @@ const SearchBar = () => {
 						<i className="iconfont icon-arrow" style={{ fontSize: '20rem' }} />
 					</div>
 
-					<div
-						className={styles.search}
-						onClick={() => changePage('/search')}
-					>
+					<div className={styles.search} onClick={() => changePage('/search')}>
 						{/* {搜索栏} */}
 						<i className="iconfont icon-seach" style={{ fontSize: '30rem' }} />
 						<span>请输入小区或地址</span>

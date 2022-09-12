@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, Card, NavBar, Toast } from 'antd-mobile'
 
-import axios from 'axios'
-
-import styles from './Map.module.css'
 import Backdrop from '../../utils/Backdrop/Backdrop'
 import HouseItem from './../../component/HouseItem/HouseItem'
+import { API } from './../../utils/api'
+
+import styles from './Map.module.css'
 
 const Map = () => {
 	const navigate = useNavigate()
@@ -67,7 +67,7 @@ const Map = () => {
 			label,
 			point => {
 				myPoint = point
-				
+
 				// 设置中心和缩放
 				map.centerAndZoom(point, 11)
 
@@ -96,9 +96,11 @@ const Map = () => {
 				content: '加载中…',
 			})
 			// 请求房源数据
-			const houseData = await axios.get(
-				`http://localhost:8080/area/map?id=${id}`
-			)
+			const houseData = await API.get(`/area/map`, {
+				params: {
+					id,
+				},
+			})
 			// 关闭 loading
 			Toast.clear()
 			// 调用 getTypeAndZoom 方法获取级别和类型
@@ -195,9 +197,11 @@ const Map = () => {
 				content: '加载中…',
 			})
 			// 获取并渲染房源数据
-			const houseData = await axios.get(
-				`http://localhost:8080/houses?cityId=${value}`
-			)
+			const houseData = await API.get(`/houses`, {
+				params: {
+					cityId: value,
+				},
+			})
 			// 关闭 Loading
 			Toast.clear()
 			// 存储房屋信息列表

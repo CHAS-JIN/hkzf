@@ -2,6 +2,7 @@ import { Card, Tag } from 'antd-mobile'
 import React from 'react'
 
 import styles from './HouseItem.module.css'
+import { BASE_URL } from './../../utils/constant';
 
 const HouseItem = props => {
 	const { desc, houseImg, price, tags, title } = props.data
@@ -10,7 +11,7 @@ const HouseItem = props => {
 			{/* 列表项左侧图片 */}
 			<div className={styles.itemImg}>
 				<img
-					src={`http://localhost:8080${houseImg}`}
+					src={`${BASE_URL}${houseImg}`}
 					alt="图片加载错误"
 				/>
 			</div>

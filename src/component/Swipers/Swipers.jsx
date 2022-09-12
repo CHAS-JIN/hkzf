@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Swiper } from 'antd-mobile'
-import axios from 'axios'
+
+import { API } from './../../utils/api';
+import { BASE_URL } from './../../utils/constant';
 
 const Swipers = () => {
 	const [swiper, setSwiper] = useState(null)
@@ -10,7 +12,7 @@ const Swipers = () => {
 	}, [])
 	// 请求轮播图数据函数
 	async function getSwiper() {
-		const result = await axios.get(`http://localhost:8080/home/swiper`)
+		const result = await API.get(`/home/swiper`)
 		setSwiper(result.data.body)
 	}
 
@@ -23,7 +25,7 @@ const Swipers = () => {
 							<div
 								style={{
 									height: '400rem',
-									backgroundImage: `url(http://localhost:8080${m.imgSrc})`,
+									backgroundImage: `url(${BASE_URL}${m.imgSrc})`,
 									backgroundSize: 'cover',
 								}}
 							></div>
