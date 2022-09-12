@@ -21,10 +21,9 @@ const Map = () => {
 	// 存储房屋信息列表
 	const [houseInfo, setHouseInfo] = useState(null)
 
-	// 将 map 对象存储为全局变量
+	// 将 map point 对象存储为全局变量
 	let myMap
 	let myPoint
-	// const [myMap, setMyMap] = useState(null)
 
 	const BMapGL = window.BMapGL
 
@@ -37,6 +36,7 @@ const Map = () => {
 	useEffect(() => {
 		initMap()
 		return () => {
+			// 销毁 myMap 全局变量
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 			myMap = null
 		}
@@ -55,8 +55,10 @@ const Map = () => {
 	const initMap = () => {
 		// 创建地图
 		const map = new BMapGL.Map('container')
+
+		// 将 map 对象放入全局变量中
 		myMap = map
-		// setMyMap(state => state=map)
+
 		// 创建地址解析器实例
 		const myGeo = new BMapGL.Geocoder()
 
@@ -65,6 +67,7 @@ const Map = () => {
 			label,
 			point => {
 				myPoint = point
+				
 				// 设置中心和缩放
 				map.centerAndZoom(point, 11)
 
@@ -77,6 +80,8 @@ const Map = () => {
 			},
 			label
 		)
+
+		// 监听地图拖动事件，拖动时隐藏房屋列表
 		map.addEventListener('dragstart', () => {
 			setIsShow(false)
 		})
@@ -252,6 +257,7 @@ const Map = () => {
 				</NavBar>
 				{/* 地图容器 */}
 				<div id="container" style={{ flex: 1 }}></div>
+				{/* 返回最上级按钮 */}
 				<div className={styles.backTop}>
 					<Button color="primary" size="small" onClick={backTop}>
 						返回最上级

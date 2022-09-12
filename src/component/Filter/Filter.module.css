@@ -1,0 +1,17 @@
+.filter {
+  display: flex;
+}
+.filter .filterDrop {
+  flex-grow: 1;
+}
+.filter .filterMore {
+  width: 180rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.filter .filterMore span {
+  margin-right: 10rem;
+  font-size: 13px;
+}
+/*# sourceMappingURL=./Filter.module.css.map */
