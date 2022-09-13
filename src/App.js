@@ -18,10 +18,23 @@ function App() {
 	const location = useLocation()
 	const { pathname } = location
 
+	// 格式化路径
+	const formatKey = pathname => {
+		if (pathname.includes('home')) {
+			return '/home'
+		} else if (pathname.includes('houselist')) {
+			return '/houselist'
+		} else if (pathname.includes('profile')) {
+			return '/profile'
+		}
+	}
+
+	// 路由跳转
 	const setRouteActive = value => {
 		navigate(value, { replace: true })
 	}
 
+	// 标签栏信息
 	const tabs = [
 		{
 			key: '/home',
@@ -44,7 +57,7 @@ function App() {
 		<div className="App">
 			<div className="content">{element}</div>
 			<div className="tabBar">
-				<TabBar activeKey={pathname} onChange={value => setRouteActive(value)}>
+				<TabBar activeKey={formatKey(pathname)} onChange={value => setRouteActive(value)}>
 					{tabs.map(item => (
 						<TabBar.Item key={item.key} icon={item.icon} title={item.title} />
 					))}

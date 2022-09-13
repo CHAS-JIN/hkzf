@@ -1,14 +1,20 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import Backdrop from '../../utils/Backdrop/Backdrop'
 
 import styles from './Search.module.css'
 
-const Search = (props) => {
-	const toggleSearch = props.toggleSearch
+const Search = () => {
+	const navigate = useNavigate()
+	// 返回首页
+	const back = () => {
+		navigate(-1)
+	}
 	return (
 		<Backdrop>
-			<div className={styles.searchCont}>
-				<div onClick={toggleSearch}>Search</div>
+			<div className={styles.cont}>
+				<div onClick={back}>Search</div>
 			</div>
 		</Backdrop>
 	)

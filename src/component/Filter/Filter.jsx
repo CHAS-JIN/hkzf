@@ -48,24 +48,24 @@ const Filter = props => {
 	}, [])
 
 	// 请求筛选条件数据
-	async function fetchFilterData() {
-		const result = await API.get(`/houses/condition`, {
+	function fetchFilterData() {
+		API.get(`/houses/condition`, {
 			params: {
 				id: value,
 			},
+		}).then(result => {
+			// 格式化
+			formatArea(result.data.body.area)
+
+			// 设置筛选器数据
+			setAreaFilterOpt([result.data.body.area, result.data.body.subway])
+			setTypeFilterOpt(result.data.body.rentType)
+			setPriceFilterOpt(result.data.body.price)
+			setRoomFilterOpt(result.data.body.roomType)
+			setCharFilterOpt(result.data.body.characteristic)
+			setFloorFilterOpt(result.data.body.floor)
+			setOriFilterOpt(result.data.body.oriented)
 		})
-
-		// 格式化
-		formatArea(result.data.body.area)
-
-		// 设置筛选器数据
-		setAreaFilterOpt([result.data.body.area, result.data.body.subway])
-		setTypeFilterOpt(result.data.body.rentType)
-		setPriceFilterOpt(result.data.body.price)
-		setRoomFilterOpt(result.data.body.roomType)
-		setCharFilterOpt(result.data.body.characteristic)
-		setFloorFilterOpt(result.data.body.floor)
-		setOriFilterOpt(result.data.body.oriented)
 	}
 
 	// 格式化区域数据 (删除最后一级数据)

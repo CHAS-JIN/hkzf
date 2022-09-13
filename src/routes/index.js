@@ -1,10 +1,11 @@
-import {Navigate} from "react-router-dom";
-import HouseList from './../pages/HouseList/HouseList';
+import { Navigate } from 'react-router-dom'
+import HouseList from './../pages/HouseList/HouseList'
 import Home from './../pages/Home/Home'
-import Profile from './../pages/Profile/Profile';
-import CityList from './../pages/CityList/CityList';
-import Search from './../pages/Search/Search';
-import Map from "../pages/Map/Map";
+import Profile from './../pages/Profile/Profile'
+import CityList from './../pages/CityList/CityList'
+import Search from './../pages/Search/Search'
+import Map from '../pages/Map/Map'
+import HouseDetail from './../pages/HouseDetail/HouseDetail';
 
 const routes = [
 	{
@@ -18,6 +19,22 @@ const routes = [
 	{
 		path: '/houselist',
 		element: <HouseList />,
+		children: [
+			{
+				path: ':rentType',
+				element: <HouseList />,
+			},
+			{
+				path: 'detail',
+				element: <HouseDetail />,
+				children: [
+					{
+						path: ':code',
+						element: <HouseDetail />,
+					},
+				],
+			},
+		],
 	},
 	{
 		path: '/profile',
@@ -34,7 +51,7 @@ const routes = [
 	{
 		path: '/map',
 		element: <Map />,
-	}
+	},
 ]
 
-export default routes;
+export default routes

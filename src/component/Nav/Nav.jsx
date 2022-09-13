@@ -19,7 +19,7 @@ const Nav = () => {
 			<div className={styles.navBarWrap}>
 				<div
 					className={styles.navBarItem}
-					onClick={() => changPage('/houselist')}
+					onClick={() => changPage('/houselist/true')}
 				>
 					<img src={nav1} alt="zhengzu" />
 					<span>整租</span>
@@ -27,7 +27,7 @@ const Nav = () => {
 
 				<div
 					className={styles.navBarItem}
-					onClick={() => changPage('/houselist')}
+					onClick={() => changPage('/houselist/false')}
 				>
 					<img src={nav2} alt="hezu" />
 					<span>合租</span>
@@ -35,13 +35,13 @@ const Nav = () => {
 
 				<div
 					className={styles.navBarItem}
-					onClick={() => changPage('/houselist')}
+					onClick={() => changPage('/map')}
 				>
 					<img src={nav3} alt="zhaofang" />
 					<span>地图找房</span>
 				</div>
 
-				<div className={styles.navBarItem} onClick={() => changPage('/chuzu')}>
+				<div className={styles.navBarItem} onClick={() => changPage('/rent')}>
 					<img src={nav4} alt="chuzu" />
 					<span>去出租</span>
 				</div>

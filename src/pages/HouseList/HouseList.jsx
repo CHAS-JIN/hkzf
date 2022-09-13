@@ -1,5 +1,5 @@
-import React from 'react'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Toast } from 'antd-mobile'
 
@@ -20,9 +20,10 @@ const HouseList = () => {
 
 	const dispatch = useDispatch()
 
+	const { rentType } = useParams()
+
 	useEffect(() => {
 		fetchData()
-		// fetchFilterData()
 		return () => {}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
@@ -33,15 +34,16 @@ const HouseList = () => {
 			icon: 'loading',
 			content: '加载中…',
 		})
-		const result = await API.get(`/houses`,{
-			params:{
-				cityId:value
-			}
+		const result = await API.get(`/houses`, {
+			params: {
+				cityId: value,
+				rentType
+			},
 		})
 		Toast.clear()
 		dispatch(updHouseInfo(result))
 	}
-	
+
 	return (
 		<div className={styles.cont}>
 			<div className={styles.top}>
@@ -53,7 +55,9 @@ const HouseList = () => {
 			<div className={styles.items}>
 				{/* 列表项 */}
 				{houseInfo &&
-					houseInfo.data.body.list.map(item => <HouseItem data={item} key={item.houseCode} />)}
+					houseInfo.data.body.list.map(item => (
+						<HouseItem data={item} key={item.houseCode} code={item.houseCode} />
+					))}
 			</div>
 		</div>
 	)
