@@ -2,15 +2,19 @@ import React from 'react'
 import { useNavigate, Outlet } from 'react-router-dom'
 import { Card, Tag } from 'antd-mobile'
 
-import styles from './HouseItem.module.css'
 import { BASE_URL } from './../../utils/constant'
+import styles from './HouseItem.module.css'
 
 const HouseItem = ({ data, code }) => {
 	const { desc, houseImg, price, tags, title } = data
 
 	const navigate = useNavigate()
 	const showDetail = () => {
-		navigate(`/houselist/detail/${code}`)
+		if (code) {
+			navigate(`/houselist/detail/${code}`)
+		} else {
+			return
+		}
 	}
 
 	return (
@@ -38,7 +42,7 @@ const HouseItem = ({ data, code }) => {
 					{/* 标签 */}
 					<div className={styles.itemTags}>
 						{tags.map((tag, index) => {
-							const tagClass = `tag${index%3 + 1}`
+							const tagClass = `tag${(index % 3) + 1}`
 							return (
 								<Tag
 									fill="solid"

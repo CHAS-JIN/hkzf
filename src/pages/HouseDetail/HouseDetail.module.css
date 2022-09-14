@@ -91,6 +91,60 @@
 .cont .wrap .mapWrap .map {
   height: 320rem;
 }
+.cont .wrap .about {
+  margin-bottom: 10px;
+  padding: 0 10px;
+  background: #fff;
+}
+.cont .wrap .about .titleEmpty {
+  padding: 10px 0;
+}
+.cont .wrap .set {
+  margin: 10px 0px;
+  padding: 0 10px;
+  line-height: 150%;
+  background: #fff;
+}
+.cont .wrap .set .contact {
+  position: relative;
+}
+.cont .wrap .set .contact .user :global(img) {
+  width: 52px;
+  height: 52px;
+  margin: 10px 10px 0 0;
+}
+.cont .wrap .set .contact .user :global(img) .useInfo {
+  padding: 15px 0 0 5px;
+}
+.cont .wrap .set .contact .user :global(img) .useInfo .userAuth {
+  font-size: 12px;
+  color: #fa5741;
+}
+.cont .wrap .set .contact .user :global(img) .useInfo .userAuth :global(.icon-auth) {
+  margin-right: 5px;
+}
+.cont .wrap .set .contact .userMsg {
+  position: absolute;
+  right: 15px;
+  top: 20px;
+  color: #33be85;
+  border: solid 1px #33be85;
+  border-radius: 3px;
+  padding: 3px 15px;
+}
+.cont .wrap .set .descText {
+  line-height: 1.6;
+  padding: 10px 0;
+  color: #333;
+}
+.cont .wrap .recommend {
+  margin: 10px 0 0 0;
+  padding: 0 15px;
+  background: #fff;
+}
+.cont .wrap .recommend .items :global(div:last-child) {
+  border-bottom: 0;
+}
 .cont .wrap .bottom {
   height: 100rem;
   width: 100%;
@@ -142,5 +196,12 @@
   border-radius: 6px;
   font-size: 25rem;
   border: none;
+}
+.houseTitle {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 10px;
+  padding: 15px 0;
+  border-bottom: solid 1px #cecece;
 }
 /*# sourceMappingURL=./HouseDetail.module.css.map */

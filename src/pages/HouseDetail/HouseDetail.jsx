@@ -8,13 +8,28 @@ import Backdrop from './../../utils/Backdrop/Backdrop'
 import { API } from './../../utils/api'
 
 import styles from './HouseDetail.module.css'
+import { BASE_URL } from './../../utils/constant';
+import HouseItem from './../../component/HouseItem/HouseItem';
 
 const HouseDetail = () => {
+	useEffect(() => {
+		fetchHousedata()
+		return () => {}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
+
 	const navigate = useNavigate()
+
+	// 从路径中提取参数
 	const { code } = useParams()
+
+	// 存储房屋信息
 	const [houseData, setHouseData] = useState(null)
+
+	// 百度地图
 	const BMapGL = window.BMapGL
 
+	// 覆盖物样式
 	const labelStyle = {
 		position: 'absolute',
 		zIndex: -7982820,
@@ -30,12 +45,35 @@ const HouseDetail = () => {
 		userSelect: 'none',
 	}
 
-	useEffect(() => {
-		fetchHousedata()
-		return () => {}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	// 猜你喜欢数据
+	const recommendHouses = [
+		{
+			id: 1,
+			houseImg: BASE_URL + '/img/message/1.png',
+			desc: '72.32㎡/南 北/低楼层',
+			title: '安贞西里 3室1厅',
+			price: 4500,
+			tags: ['随时看房'],
+		},
+		{
+			id: 2,
+			houseImg: BASE_URL + '/img/message/2.png',
+			desc: '83㎡/南/高楼层',
+			title: '天居园 2室1厅',
+			price: 7200,
+			tags: ['近地铁'],
+		},
+		{
+			id: 3,
+			houseImg: BASE_URL + '/img/message/3.png',
+			desc: '52㎡/西南/低楼层',
+			title: '角门甲4号院 1室1厅',
+			price: 4300,
+			tags: ['集中供暖'],
+		},
+	]
 
+	// 获取房屋数据
 	function fetchHousedata() {
 		Toast.show({
 			icon: 'loading',
@@ -177,7 +215,52 @@ const HouseDetail = () => {
 							<div id="container" className={styles.map}></div>
 						</div>
 
-						
+						{/* 房屋配套 */}
+						<div className={styles.about}>
+							<div className={styles.houseTitle}>房屋配套</div>
+							{/* <HousePackage list={supporting} /> */}
+							<div className={styles.titleEmpty}>暂无数据</div>
+
+							{/* {houseData.supporting.length === 0 ? (
+								<div className={styles.titleEmpty}>暂无数据</div>
+							) : (
+								<HousePackage list={supporting} />
+							)} */}
+						</div>
+
+						{/* 房屋概况 */}
+						<div className={styles.set}>
+							<div className={styles.houseTitle}>房源概况</div>
+							<div>
+								<div className={styles.contact}>
+									<div className={styles.user}>
+										<img src={BASE_URL + '/img/avatar.png'} alt="头像" />
+										<div className={styles.useInfo}>
+											<div>王女士</div>
+											<div className={styles.userAuth}>
+												<i className="iconfont icon-auth" />
+												已认证房主
+											</div>
+										</div>
+									</div>
+									<span className={styles.userMsg}>发消息</span>
+								</div>
+
+								<div className={styles.descText}>
+									{houseData.description || '暂无房屋描述'}
+								</div>
+							</div>
+						</div>
+
+						{/* 推荐 */}
+						<div className={styles.recommend}>
+							<div className={styles.houseTitle}>猜你喜欢</div>
+							<div className={styles.items}>
+								{recommendHouses.map(item => (
+									<HouseItem data={item} key={item.id} />
+								))}
+							</div>
+						</div>
 
 						{/* 底部按钮 */}
 						<div className={styles.bottom}>
