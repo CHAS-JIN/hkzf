@@ -56,7 +56,7 @@ const HouseList = () => {
 				{/* 列表项 */}
 				{houseInfo &&
 					houseInfo.data.body.list.map(item => (
-						<HouseItem data={item} key={item.houseCode} code={item.houseCode} />
+						<HouseItem data={item} key={item.houseCode} />
 					))}
 			</div>
 		</div>

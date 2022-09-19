@@ -2,10 +2,14 @@
   height: 100%;
   width: 100%;
   background-color: #f6f5f6;
+  overflow: auto;
 }
 .cont .wrap {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  margin-bottom: 100rem;
+  position: relative;
 }
 .cont .wrap .close {
   height: 50rem;
@@ -88,9 +92,6 @@
   font-size: 25rem;
   padding-left: 20rem;
 }
-.cont .wrap .mapWrap .map {
-  height: 320rem;
-}
 .cont .wrap .about {
   margin-bottom: 10px;
   padding: 0 10px;
@@ -100,37 +101,32 @@
   padding: 10px 0;
 }
 .cont .wrap .set {
-  margin: 10px 0px;
-  padding: 0 10px;
+  margin: 20rem 0;
+  padding: 0 20rem;
   line-height: 150%;
   background: #fff;
 }
 .cont .wrap .set .contact {
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.cont .wrap .set .contact .user :global(img) {
-  width: 52px;
-  height: 52px;
-  margin: 10px 10px 0 0;
+.cont .wrap .set .contact .user {
+  height: 100rem;
+  display: flex;
 }
-.cont .wrap .set .contact .user :global(img) .useInfo {
-  padding: 15px 0 0 5px;
+.cont .wrap .set .contact .user img {
+  height: 100rem;
+  width: 100rem;
+  margin-right: 20rem;
 }
-.cont .wrap .set .contact .user :global(img) .useInfo .userAuth {
-  font-size: 12px;
+.cont .wrap .set .contact .user .useInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.cont .wrap .set .contact .user .useInfo .userAuth {
   color: #fa5741;
-}
-.cont .wrap .set .contact .user :global(img) .useInfo .userAuth :global(.icon-auth) {
-  margin-right: 5px;
-}
-.cont .wrap .set .contact .userMsg {
-  position: absolute;
-  right: 15px;
-  top: 20px;
-  color: #33be85;
-  border: solid 1px #33be85;
-  border-radius: 3px;
-  padding: 3px 15px;
 }
 .cont .wrap .set .descText {
   line-height: 1.6;

@@ -24,16 +24,6 @@ const routes = [
 				path: ':rentType',
 				element: <HouseList />,
 			},
-			{
-				path: 'detail',
-				element: <HouseDetail />,
-				children: [
-					{
-						path: ':code',
-						element: <HouseDetail />,
-					},
-				],
-			},
 		],
 	},
 	{
@@ -51,6 +41,16 @@ const routes = [
 	{
 		path: '/map',
 		element: <Map />,
+	},
+	{
+		path: 'detail',
+		element: <HouseDetail />,
+		children: [
+			{
+				path: ':code',
+				element: <HouseDetail />,
+			},
+		],
 	},
 ]
 

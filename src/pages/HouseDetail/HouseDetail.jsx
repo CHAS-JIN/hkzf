@@ -1,30 +1,52 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { CloseOutline, StarOutline } from 'antd-mobile-icons'
-import { Tag, Toast } from 'antd-mobile'
+import { CloseOutline, StarFill, StarOutline } from 'antd-mobile-icons'
+import { Button, Tag, Toast } from 'antd-mobile'
+import Map from "react-bmapgl/dist/Map/Map";
+import Label from 'react-bmapgl/dist/Overlay/Label'
+
 
 import Swipers from './../../component/Swipers/Swipers'
+import HouseItem from './../../component/HouseItem/HouseItem'
 import Backdrop from './../../utils/Backdrop/Backdrop'
 import { API } from './../../utils/api'
 
 import styles from './HouseDetail.module.css'
-import { BASE_URL } from './../../utils/constant';
-import HouseItem from './../../component/HouseItem/HouseItem';
+import { BASE_URL } from './../../utils/constant'
+import HousePackage from '../../component/HousePackage/HousePackage'
 
 const HouseDetail = () => {
-	useEffect(() => {
-		fetchHousedata()
-		return () => {}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
-
-	const navigate = useNavigate()
-
 	// 从路径中提取参数
 	const { code } = useParams()
 
 	// 存储房屋信息
 	const [houseData, setHouseData] = useState(null)
+
+	// 是否收藏
+	const [collected, setCollected] = useState(false)
+
+	useEffect(() => {
+		// 获取房屋数据
+		async function fetchHousedata() {
+			Toast.show({
+				icon: 'loading',
+				content: '加载中......',
+			})
+
+			const result = await API.get(`/houses/${code}`)
+
+			Toast.clear()
+
+			const res = result.data.body
+
+			setHouseData(res)
+		}
+		if (!houseData) {
+			fetchHousedata()
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
+	const navigate = useNavigate()
 
 	// 百度地图
 	const BMapGL = window.BMapGL
@@ -49,7 +71,7 @@ const HouseDetail = () => {
 	const recommendHouses = [
 		{
 			id: 1,
-			houseImg: BASE_URL + '/img/message/1.png',
+			houseImg: '/img/message/1.png',
 			desc: '72.32㎡/南 北/低楼层',
 			title: '安贞西里 3室1厅',
 			price: 4500,
@@ -57,7 +79,7 @@ const HouseDetail = () => {
 		},
 		{
 			id: 2,
-			houseImg: BASE_URL + '/img/message/2.png',
+			houseImg: '/img/message/2.png',
 			desc: '83㎡/南/高楼层',
 			title: '天居园 2室1厅',
 			price: 7200,
@@ -65,7 +87,7 @@ const HouseDetail = () => {
 		},
 		{
 			id: 3,
-			houseImg: BASE_URL + '/img/message/3.png',
+			houseImg: '/img/message/3.png',
 			desc: '52㎡/西南/低楼层',
 			title: '角门甲4号院 1室1厅',
 			price: 4300,
@@ -73,44 +95,13 @@ const HouseDetail = () => {
 		},
 	]
 
-	// 获取房屋数据
-	function fetchHousedata() {
-		Toast.show({
-			icon: 'loading',
-			content: '加载中…',
-		})
-		API.get(`/houses/${code}`).then(result => {
-			const res = result.data.body
-			setHouseData(res)
-			// renderMap(res.community, res.coord)
-
-			Toast.clear()
-		})
-	}
-
-	// 渲染地图
-	const renderMap = (community, coord) => {
-		const { latitude, longitude } = coord
-		const map = new BMapGL.Map('container')
-		const point = new BMapGL.Point(longitude, latitude)
-
-		map.centerAndZoom(point, 17)
-
-		const label = new BMapGL.Label('', {
-			position: point,
-			offset: new BMapGL.Size(0, -36),
-		})
-
-		label.setStyle(labelStyle)
-		label.setContent(`
-			<span>${community}</span>
-		`)
-		map.addOverlay(label)
-	}
-
 	// 返回上一页
 	const back = () => {
 		navigate(-1)
+	}
+
+	const changeCollect = () => {
+		setCollected(pre => !pre)
 	}
 
 	return (
@@ -122,7 +113,7 @@ const HouseDetail = () => {
 						<Swipers code={code} imgSrc={houseData.houseImg} />
 
 						{/* 关闭按钮 */}
-						<div className={styles.close} onTouchEnd={back}>
+						<div className={styles.close} onClick={back}>
 							<CloseOutline />
 						</div>
 
@@ -212,20 +203,41 @@ const HouseDetail = () => {
 							<div className={styles.title}>小区：{houseData.community}</div>
 
 							{/* 地图容器 */}
-							<div id="container" className={styles.map}></div>
+							<div id="myMap">
+								<Map
+									center={{
+										lng: houseData.coord.longitude,
+										lat: houseData.coord.latitude,
+									}}
+									zoom="17"
+									style={{ height: '320rem' }}
+								>
+									<Label
+										position={
+											new BMapGL.Point(
+												houseData.coord.longitude,
+												houseData.coord.latitude
+											)
+										}
+										offset={new BMapGL.Size(0, -36)}
+										text={houseData.community}
+										style={labelStyle}
+									/>
+								</Map>
+							</div>
 						</div>
 
 						{/* 房屋配套 */}
 						<div className={styles.about}>
 							<div className={styles.houseTitle}>房屋配套</div>
 							{/* <HousePackage list={supporting} /> */}
-							<div className={styles.titleEmpty}>暂无数据</div>
+							{/* <div className={styles.titleEmpty}>暂无数据</div> */}
 
-							{/* {houseData.supporting.length === 0 ? (
+							{houseData.supporting.length === 0 ? (
 								<div className={styles.titleEmpty}>暂无数据</div>
 							) : (
-								<HousePackage list={supporting} />
-							)} */}
+								<HousePackage list={houseData.supporting} />
+							)}
 						</div>
 
 						{/* 房屋概况 */}
@@ -243,7 +255,17 @@ const HouseDetail = () => {
 											</div>
 										</div>
 									</div>
-									<span className={styles.userMsg}>发消息</span>
+									<Button
+										size="mini"
+										fill="outline"
+										style={{
+											color: '#33be85',
+											borderColor: '#33be85',
+											height: '50rem',
+										}}
+									>
+										发消息
+									</Button>
 								</div>
 
 								<div className={styles.descText}>
@@ -264,8 +286,12 @@ const HouseDetail = () => {
 
 						{/* 底部按钮 */}
 						<div className={styles.bottom}>
-							<div className={styles.collect}>
-								<StarOutline />
+							<div className={styles.collect} onClick={changeCollect}>
+								{collected ? (
+									<StarFill style={{ color: 'orange' }} />
+								) : (
+									<StarOutline />
+								)}
 								<span>收藏</span>
 							</div>
 

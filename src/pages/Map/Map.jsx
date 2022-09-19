@@ -27,7 +27,7 @@ const Map = () => {
 
 	const BMapGL = window.BMapGL
 
-	// 返回首页
+	// 返回上一页
 	const back = () => {
 		navigate(-1)
 	}
@@ -35,11 +35,7 @@ const Map = () => {
 	// 组件挂载时创建百度地图对象
 	useEffect(() => {
 		initMap()
-		return () => {
-			// 销毁 myMap 全局变量
-			// eslint-disable-next-line react-hooks/exhaustive-deps
-			myMap = null
-		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	// 覆盖物样式

@@ -2,10 +2,14 @@
     height: 100%;
     width: 100%;
     background-color: #f6f5f6;
+    overflow: auto;
 
     .wrap {
+        width: 100%;
         display: flex;
         flex-direction: column;
+        margin-bottom: 100rem;
+        position: relative;
 
         .close {
             height: 50rem;
@@ -102,10 +106,6 @@
                 font-size: 25rem;
                 padding-left: 20rem;
             }
-
-            .map {
-                height: 320rem;
-            }
         }
 
         .about {
@@ -119,41 +119,35 @@
         }
 
         .set {
-            margin: 10px 0px;
-            padding: 0 10px;
+            margin: 20rem 0;
+            padding: 0 20rem;
             line-height: 150%;
             background: #fff;
 
             .contact {
-                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
 
-                .user :global(img) {
-                    width: 52px;
-                    height: 52px;
-                    margin: 10px 10px 0 0;
+                .user {
+                    height: 100rem;
+                    display: flex;
+
+                    img {
+                        height: 100rem;
+                        width: 100rem;
+                        margin-right: 20rem;
+                    }
 
                     .useInfo {
-                        padding: 15px 0 0 5px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-around;
 
-                        .userAuth {
-                            font-size: 12px;
+                        .userAuth{
                             color: #fa5741;
-
-                            :global(.icon-auth) {
-                                margin-right: 5px;
-                            }
                         }
                     }
-                }
-
-                .userMsg {
-                    position: absolute;
-                    right: 15px;
-                    top: 20px;
-                    color: #33be85;
-                    border: solid 1px #33be85;
-                    border-radius: 3px;
-                    padding: 3px 15px;
                 }
             }
 
