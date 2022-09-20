@@ -5,7 +5,6 @@ import {
 	AppOutline,
 	EnvironmentOutline,
 	UserOutline,
-	MessageOutline,
 } from 'antd-mobile-icons'
 
 import routes from './routes'

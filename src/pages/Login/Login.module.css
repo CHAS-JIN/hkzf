@@ -1,0 +1,28 @@
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.container .wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.container .wrapper .main {
+  width: 500rem;
+  position: absolute;
+  top: 15%;
+  box-shadow: 0 0 15rem #ddd;
+}
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.footer .button {
+  width: 45%;
+}
+/*# sourceMappingURL=./Login.module.css.map */

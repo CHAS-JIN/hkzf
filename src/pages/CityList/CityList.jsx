@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { NavBar, IndexBar, List, SpinLoading, Toast } from 'antd-mobile'
+import { IndexBar, List, SpinLoading, Toast } from 'antd-mobile'
 import { useNavigate } from 'react-router-dom'
 
 import { updCurCityInfo } from '../../redux/slices/curCityInfoSlice'
 import { API } from './../../utils/api'
+import MyNavBar from '../../component/MyNavBar/MyNavBar'
 import Backdrop from './../../utils/Backdrop/Backdrop'
 
 import styles from './CityList.module.css'
@@ -108,9 +109,7 @@ const CityList = () => {
 	return (
 		<Backdrop>
 			<div className={styles.cityCont}>
-				<NavBar onBack={back} style={{ backgroundColor: '#f6f5f6' }}>
-					城市列表
-				</NavBar>
+				<MyNavBar>城市列表</MyNavBar>
 				<div style={{ height: '100%' }}>
 					{/* 加载中 */}
 					{!groups && (

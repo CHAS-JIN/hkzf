@@ -1,18 +1,19 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, Grid } from 'antd-mobile'
 
 import { BASE_URL } from './../../utils/constant'
 
 import styles from './Profile.module.css'
+import { useSelector } from 'react-redux'
 
 const Profile = () => {
 	const DEFAULT_AVATAR = BASE_URL + '/img/profile/avatar.png'
 	const navigate = useNavigate()
-	const [isLoging, setIsLoging] = useState(false)
+	const isLoging = useSelector(state=>state.auth.isLoging)
 	const menus = [
-		{ id: 1, name: '我的收藏', iconfont: 'icon-coll', to: '/favorate' },
-		{ id: 2, name: '我的出租', iconfont: 'icon-ind', to: '/rent' },
+		{ id: 1, name: '我的收藏', iconfont: 'icon-coll', to: '/collected' },
+		{ id: 2, name: '我的出租', iconfont: 'icon-ind', to: '/myrent' },
 		{ id: 3, name: '看房记录', iconfont: 'icon-record' },
 		{
 			id: 4,

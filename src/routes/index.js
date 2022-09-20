@@ -6,6 +6,10 @@ import CityList from './../pages/CityList/CityList'
 import Search from './../pages/Search/Search'
 import Map from '../pages/Map/Map'
 import HouseDetail from './../pages/HouseDetail/HouseDetail';
+import Login from '../pages/Login/Login'
+import Rent from './../pages/Rent/Rent';
+import MyRent from './../pages/MyRent/MyRent';
+import Collected from './../pages/Collected/Collected';
 
 const routes = [
 	{
@@ -51,6 +55,22 @@ const routes = [
 				element: <HouseDetail />,
 			},
 		],
+	},
+	{
+		path: '/login',
+		element: <Login />,
+	},
+	{
+		path: '/rent',
+		element: <Rent />,
+	},
+	{
+		path: '/myrent',
+		element: <MyRent />,
+	},
+	{
+		path: '/collected',
+		element: <Collected />,
 	},
 ]
 

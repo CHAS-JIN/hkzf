@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import styles from './HousePackage.module.css'
 
-const HousePackage = ({ list }) => {
+const HousePackage = ({ list, select }) => {
 	// 所有房屋配置项
 	const HOUSE_PACKAGE = [
 		{
@@ -57,14 +57,46 @@ const HousePackage = ({ list }) => {
 		},
 	]
 
-	const renderItems = () => {
+	const [selectedItems, setSelectedItems] = useState([]);
 
-		// 从所有的列表项中过滤出要展示的（list）列表项
-		const data = HOUSE_PACKAGE.filter(d => list.includes(d.name))
+	const toggleSelected = (name) => {
+		let newSelectedItems
+
+		// 判断该项是否选中
+		if (selectedItems.indexOf(name) > -1) {
+			// 选中：从数组中删除选中项，也就是保留未选中项
+			newSelectedItems = selectedItems.filter(item => item !== name)
+		} else {
+			// 未选中：添加到数组中
+			newSelectedItems = [...selectedItems, name]
+		}
+
+		setSelectedItems(newSelectedItems)
+	}
+
+	const renderItems = () => {
+		let data
+
+		// 有 select 表示为房屋出租页面选择配置
+		if (select) {
+			data = HOUSE_PACKAGE
+		} else {
+			// 无 select
+			// 从所有的列表项中过滤出要展示的（list）列表项
+			data = HOUSE_PACKAGE.filter(d => list.includes(d.name))
+		}
+
 		
-        return data.map(item => {
+		return data.map(item => {
+			// 判断该项是否选中
+			const isSelected = selectedItems.indexOf(item.name) > -1
+			
 			return (
-				<li key={item.id} className={styles.item}>
+				<li
+					key={item.id}
+					className={[styles.item, isSelected ? styles.active : ''].join(' ')}
+					onClick={select && (() => toggleSelected(item.name))}
+				>
 					<p>
 						<i className={`iconfont ${item.icon} ${styles.icon}`} />
 					</p>

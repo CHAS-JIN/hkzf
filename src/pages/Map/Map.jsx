@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import { Button, Card, NavBar, Toast } from 'antd-mobile'
+import { Link } from 'react-router-dom'
+import { Button, Card, Toast } from 'antd-mobile'
 
+import MyNavBar from '../../component/MyNavBar/MyNavBar'
 import Backdrop from '../../utils/Backdrop/Backdrop'
 import HouseItem from './../../component/HouseItem/HouseItem'
 import { API } from './../../utils/api'
@@ -10,7 +11,6 @@ import { API } from './../../utils/api'
 import styles from './Map.module.css'
 
 const Map = () => {
-	const navigate = useNavigate()
 
 	// 获取当前城市 label value
 	const { label, value } = useSelector(state => state.curCityInfo)
@@ -26,11 +26,6 @@ const Map = () => {
 	let myPoint
 
 	const BMapGL = window.BMapGL
-
-	// 返回上一页
-	const back = () => {
-		navigate(-1)
-	}
 
 	// 组件挂载时创建百度地图对象
 	useEffect(() => {
@@ -252,9 +247,9 @@ const Map = () => {
 	return (
 		<Backdrop>
 			<div className={styles.mapCont} style={{ height: '100%' }}>
-				<NavBar onBack={back} style={{ backgroundColor: '#f6f5f6' }}>
+				<MyNavBar>
 					地图找房
-				</NavBar>
+				</MyNavBar>
 				{/* 地图容器 */}
 				<div id="container" style={{ flex: 1 }}></div>
 				{/* 返回最上级按钮 */}
