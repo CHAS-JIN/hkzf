@@ -1,9 +1,28 @@
 .cont {
   height: 100%;
   width: 100%;
-  background-color: #aaa;
-  position: absolute;
-  top: 0;
-  font-size: 80rem;
+}
+.cont .wrap {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cont .wrap .logo {
+  height: 400rem;
+}
+.cont .wrap .logo img {
+  height: 100%;
+  width: auto;
+}
+.cont .wrap .list {
+  max-height: 500rem;
+  width: 400rem;
+  overflow: auto;
+  box-shadow: 0 10rem 15rem 0 #eee;
+}
+.cont .wrap .list .tip {
+  padding: 10rem 0 10rem 10rem;
+  font-size: 25rem;
 }
 /*# sourceMappingURL=./Search.module.css.map */

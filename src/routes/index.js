@@ -5,11 +5,12 @@ import Profile from './../pages/Profile/Profile'
 import CityList from './../pages/CityList/CityList'
 import Search from './../pages/Search/Search'
 import Map from '../pages/Map/Map'
-import HouseDetail from './../pages/HouseDetail/HouseDetail';
+import HouseDetail from './../pages/HouseDetail/HouseDetail'
 import Login from '../pages/Login/Login'
-import Rent from './../pages/Rent/Rent';
-import MyRent from './../pages/MyRent/MyRent';
-import Collected from './../pages/Collected/Collected';
+import Rent from './../pages/Rent/Rent'
+import MyRent from './../pages/MyRent/MyRent'
+import Collected from './../pages/Collected/Collected'
+import AuthCheck from './../component/AuthCheck/AuthCheck'
 
 const routes = [
 	{
@@ -62,15 +63,27 @@ const routes = [
 	},
 	{
 		path: '/rent',
-		element: <Rent />,
+		element: (
+			<AuthCheck>
+				<Rent />
+			</AuthCheck>
+		),
 	},
 	{
 		path: '/myrent',
-		element: <MyRent />,
+		element: (
+			<AuthCheck>
+				<MyRent />
+			</AuthCheck>
+		),
 	},
 	{
 		path: '/collected',
-		element: <Collected />,
+		element: (
+			<AuthCheck>
+				<Collected />
+			</AuthCheck>
+		),
 	},
 ]
 

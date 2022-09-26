@@ -1,10 +1,9 @@
 .container {
   height: 100%;
   width: 100%;
-  display: flex;
-  flex-direction: column;
 }
 .container .wrapper {
   height: 100%;
+  overflow: auto;
 }
 /*# sourceMappingURL=./MyRent.module.css.map */

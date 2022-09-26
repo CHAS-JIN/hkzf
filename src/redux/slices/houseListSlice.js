@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const houseListSlice = createSlice({
-	name: 'houseListSlice',
+const houseList = createSlice({
+	name: 'houseList',
 	initialState: {},
 	reducers: {
 		updHouseInfo: (state, action) => {
@@ -9,5 +9,5 @@ const houseListSlice = createSlice({
 		},
 	},
 })
-export const { updHouseInfo } = houseListSlice.actions
-export default houseListSlice.reducer
+export const { updHouseInfo } = houseList.actions
+export default houseList.reducer

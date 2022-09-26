@@ -4,13 +4,9 @@ import { NavBar } from 'antd-mobile'
 
 const MyNavBar = props => {
 	const navigate = useNavigate()
-	// 返回上一页
-	const back = () => {
-		navigate(-1)
-	}
 	return (
 		<NavBar
-			onBack={back}
+			onBack={() => navigate(-1)}
 			style={{ backgroundColor: '#f6f5f6' }}
 			right={props.right ? props.right : null}
 		>

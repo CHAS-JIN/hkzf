@@ -1,21 +1,37 @@
+import { useEffect } from 'react'
 import { useRoutes, useNavigate, useLocation } from 'react-router-dom'
-
+import { useDispatch, useSelector } from 'react-redux'
 import { TabBar } from 'antd-mobile'
-import {
-	AppOutline,
-	EnvironmentOutline,
-	UserOutline,
-} from 'antd-mobile-icons'
+import { AppOutline, EnvironmentOutline, UserOutline } from 'antd-mobile-icons'
 
 import routes from './routes'
+import { API } from './utils/api'
+import { updCurCityInfo } from './redux/slices/curCityInfoSlice'
+
 import './App.css'
 
 function App() {
 	const element = useRoutes(routes)
-
 	const navigate = useNavigate()
 	const location = useLocation()
 	const { pathname } = location
+	const cityLabel = useSelector(state=>state.curCityInfo.label)
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		const curCity = new window.BMapGL.LocalCity()
+		curCity.get(async res => {
+			const cityName = res.name
+			const result = await API.get(`/area/info`, {
+				params: {
+					name: cityName,
+				},
+			})
+			if (!cityLabel) {
+				dispatch(updCurCityInfo(result.data.body))
+			}
+		})
+	},[])
 
 	// 格式化路径
 	const formatKey = pathname => {
@@ -56,7 +72,10 @@ function App() {
 		<div className="App">
 			<div className="content">{element}</div>
 			<div className="tabBar">
-				<TabBar activeKey={formatKey(pathname)} onChange={value => setRouteActive(value)}>
+				<TabBar
+					activeKey={formatKey(pathname)}
+					onChange={value => setRouteActive(value)}
+				>
 					{tabs.map(item => (
 						<TabBar.Item key={item.key} icon={item.icon} title={item.title} />
 					))}

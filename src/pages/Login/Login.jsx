@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Form, Input, NavBar } from 'antd-mobile'
+import { Button, Form, Input, NavBar, Toast } from 'antd-mobile'
 
 import Backdrop from './../../utils/Backdrop/Backdrop'
+import { API } from './../../utils/api'
+import { TOKEN } from '../../utils/constant'
 
 import styles from './Login.module.css'
 
@@ -14,6 +16,63 @@ const Login = () => {
 	// 返回上一页
 	const back = () => {
 		navigate(-1)
+	}
+
+	const submit = () => {
+		const data = form.getFieldsValue(['username', 'password'])
+
+		const login = async () => {
+			const res = await API.post('/user/login', data)
+
+			const { status, description, body } = res.data
+
+			if (status === 200) {
+				localStorage.setItem(TOKEN, body.token)
+
+				const userInfo = await API.get('/user', {
+					headers: { authorization: body.token },
+				})
+
+				const { status, body: userbody } = userInfo.data
+
+				if (status === 200) {
+					localStorage.setItem('user',JSON.stringify(userbody))
+				}
+
+				Toast.show({
+					icon: 'success',
+					content: description,
+				})
+
+				back()
+			} else {
+				Toast.show({
+					icon: 'fail',
+					content: description,
+				})
+			}
+		}
+
+		const regist = async () => {
+			const res = await API.post('/user/registered', data)
+
+			const { status, description } = res.data
+
+			if (status === 200) {
+				login()
+			} else {
+				Toast.show({
+					icon: 'fail',
+					content: description,
+				})
+			}
+		}
+
+		if (!isReg) {
+			login()
+		} else {
+			regist()
+		}
 	}
 
 	const footer = () => {
@@ -40,11 +99,9 @@ const Login = () => {
 					type="submit"
 					color="success"
 					size="large"
-					onClick={() => {
-						console.log(form.getFieldValue('passwordConfirm'))
-					}}
+					onClick={submit}
 				>
-					{!isReg ? '登录' : '注册'}
+					{!isReg ? '登录' : '注册并登录'}
 				</Button>
 			</div>
 		)
@@ -54,7 +111,7 @@ const Login = () => {
 		<Backdrop>
 			<div className={styles.container}>
 				<NavBar onBack={back} style={{ backgroundColor: '#f6f5f6' }}>
-					登录
+					{!isReg ? '登录' : '注册'}
 				</NavBar>
 				<div className={styles.wrapper}>
 					<div className={styles.main}>
@@ -98,7 +155,6 @@ const Login = () => {
 											type: 'string',
 											whitespace: true,
 											validator: (_, value) => {
-												console.log(value)
 												if (value === form.getFieldValue('password')) {
 													return Promise.resolve()
 												}

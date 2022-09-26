@@ -2,20 +2,21 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CloseOutline, StarFill, StarOutline } from 'antd-mobile-icons'
 import { Button, Tag, Toast } from 'antd-mobile'
-import Map from "react-bmapgl/dist/Map/Map";
+import Map from 'react-bmapgl/dist/Map/Map'
 import Label from 'react-bmapgl/dist/Overlay/Label'
-
 
 import Swipers from './../../component/Swipers/Swipers'
 import HouseItem from './../../component/HouseItem/HouseItem'
 import Backdrop from './../../utils/Backdrop/Backdrop'
 import { API } from './../../utils/api'
-
-import styles from './HouseDetail.module.css'
-import { BASE_URL } from './../../utils/constant'
+import { BASE_URL, TOKEN } from './../../utils/constant'
 import HousePackage from '../../component/HousePackage/HousePackage'
 
+import styles from './HouseDetail.module.css'
+
 const HouseDetail = () => {
+	const token = localStorage.getItem(TOKEN)
+
 	// 从路径中提取参数
 	const { code } = useParams()
 
@@ -25,27 +26,6 @@ const HouseDetail = () => {
 	// 是否收藏
 	const [collected, setCollected] = useState(false)
 
-	useEffect(() => {
-		// 获取房屋数据
-		async function fetchHousedata() {
-			Toast.show({
-				icon: 'loading',
-				content: '加载中......',
-			})
-
-			const result = await API.get(`/houses/${code}`)
-
-			Toast.clear()
-
-			const res = result.data.body
-
-			setHouseData(res)
-		}
-		if (!houseData) {
-			fetchHousedata()
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
 	const navigate = useNavigate()
 
 	// 百度地图
@@ -95,13 +75,54 @@ const HouseDetail = () => {
 		},
 	]
 
+	useEffect(() => {
+		fetchHousedata()
+		fetchCollect()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
+
+	// 获取房屋数据
+	const fetchHousedata = async () => {
+		Toast.show({
+			icon: 'loading',
+			content: '加载中......',
+		})
+
+		const result = await API.get(`/houses/${code}`)
+
+		Toast.clear()
+
+		const res = result.data.body
+
+		setHouseData(res)
+	}
+
+	// 是否收藏
+	const fetchCollect = async () => {
+		const res = await API.get(`/user/favorites/${code}`, {
+			headers: { authorization: token },
+		})
+		const { isFavorite } = res.data.body
+		setCollected(isFavorite)
+	}
+
 	// 返回上一页
 	const back = () => {
 		navigate(-1)
 	}
 
-	const changeCollect = () => {
-		setCollected(pre => !pre)
+	const changeCollect = async () => {
+		if (collected) {
+			await API.delete(`/user/favorites/${code}`, {
+				headers: { authorization: token },
+			})
+			setCollected(false)
+		} else {
+			await API.post(`/user/favorites/${code}`,{}, {
+				headers: { authorization: token },
+			})
+			setCollected(true)
+		}
 	}
 
 	return (

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Toast } from 'antd-mobile'
 
@@ -22,9 +22,10 @@ const HouseList = () => {
 
 	const { rentType } = useParams()
 
+	const { state } = useLocation()
+
 	useEffect(() => {
 		fetchData()
-		return () => {}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
@@ -37,7 +38,8 @@ const HouseList = () => {
 		const result = await API.get(`/houses`, {
 			params: {
 				cityId: value,
-				rentType
+				rentType,
+				area: state ? state.community : null,
 			},
 		})
 		Toast.clear()

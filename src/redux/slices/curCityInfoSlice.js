@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const curCityInfoSlice = createSlice({
-	name: 'curCityInfoSlice',
+const curCityInfo = createSlice({
+	name: 'curCityInfo',
 	initialState: {
 		label: null,
 		value: null
@@ -13,7 +13,7 @@ const curCityInfoSlice = createSlice({
 		},
 	},
 })
-export const { updCurCityInfo } = curCityInfoSlice.actions
+export const { updCurCityInfo } = curCityInfo.actions
 
-export default curCityInfoSlice.reducer
+export default curCityInfo.reducer
 

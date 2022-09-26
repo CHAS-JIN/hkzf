@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
 	Button,
 	Dialog,
@@ -24,6 +24,8 @@ const Rent = () => {
 
 	const navigate = useNavigate()
 
+	const { state } = useLocation()
+	
 	// 户型
 	const roomTypeData = [
 		[
@@ -70,6 +72,8 @@ const Rent = () => {
 		})
 	}
 
+	const rules = [{ required: true, message: '不能为空！' }]
+
 	return (
 		<Backdrop>
 			<div className={styles.container}>
@@ -84,27 +88,52 @@ const Rent = () => {
 						}
 					>
 						{/* 小区名称 */}
-						<Form.Item label="小区名称" onClick={() => navigate('/search')}>
-							<Input placeholder="点击搜索小区名称" readOnly />
+						<Form.Item
+							label="小区名称"
+							name="community"
+							onClick={() => navigate('/search', { state: { isRent: true } })}
+							rules={rules}
+						>
+							{/* <Input
+								placeholder="点击搜索小区名称"
+								readOnly
+								value='111'
+							/> */}
+							<span style={{ color: state?.communityName ? 'black' : '#ccc' }}>
+								{state?.communityName ?? '点击搜索小区名称'}
+							</span>
 						</Form.Item>
 
 						{/* 租金 */}
 						<Form.Item
+							name="price"
 							label="租&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金"
 							extra="￥/月"
+							rules={rules}
 						>
 							<Input placeholder="请输入租金" />
 						</Form.Item>
 
 						{/* 建筑面积 */}
-						<Form.Item label="建筑面积" extra="平方米">
+						<Form.Item
+							name="area"
+							label="建筑面积"
+							extra="平方米"
+							rules={rules}
+						>
 							<Input placeholder="请输入建筑面积" />
 						</Form.Item>
 
 						{/* 户型 */}
 						<Form.Item
+							name="type"
+							rules={rules}
 							label="户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型"
-							onClick={() => setRoomVisible(true)}
+							onClick={(e, ref) => {
+								console.log('e', e.target)
+								console.log('ref', ref)
+								setRoomVisible(true)
+							}}
 						>
 							<Picker
 								columns={roomTypeData}
@@ -117,19 +146,19 @@ const Rent = () => {
 									if (items.every(item => item === null)) {
 										return <span style={{ color: '#ccc' }}>未选择</span>
 									} else {
-										return items.map(
-											item =>
-												item?.label ?? (
-													<span style={{ color: '#ccc' }}>未选择</span>
-												)
-										)
+										return items.map(item => item?.label)
 									}
 								}}
 							</Picker>
 						</Form.Item>
 
 						{/* 所在楼层 */}
-						<Form.Item label="所在楼层" onClick={() => setFloorVisible(true)}>
+						<Form.Item
+							name="floor"
+							label="所在楼层"
+							onClick={() => setFloorVisible(true)}
+							rules={rules}
+						>
 							<Picker
 								columns={floorData}
 								visible={floorVisible}
@@ -154,6 +183,8 @@ const Rent = () => {
 
 						{/* 朝向 */}
 						<Form.Item
+							name="ori"
+							rules={rules}
 							label="朝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;向"
 							onClick={() => setOriVisible(true)}
 						>
@@ -180,12 +211,22 @@ const Rent = () => {
 						</Form.Item>
 
 						{/* 房屋标题 */}
-						<Form.Item label="房屋标题" layout="vertical">
+						<Form.Item
+							name="title"
+							label="房屋标题"
+							layout="vertical"
+							rules={rules}
+						>
 							<Input placeholder="请输入标题（例如：整租 小区名 2室 5000元）" />
 						</Form.Item>
 
 						{/* 房屋图片 */}
-						<Form.Item label="房屋图片" layout="vertical">
+						<Form.Item
+							name="image"
+							label="房屋图片"
+							layout="vertical"
+							rules={rules}
+						>
 							<ImageUploader
 								multiple={true}
 								value={houseImg}
@@ -199,12 +240,22 @@ const Rent = () => {
 						</Form.Item>
 
 						{/* 房屋配置 */}
-						<Form.Item label="房屋配置" layout="vertical">
+						<Form.Item
+							name="tags"
+							label="房屋配置"
+							layout="vertical"
+							rules={rules}
+						>
 							<HousePackage select />
 						</Form.Item>
 
 						{/* 房屋描述 */}
-						<Form.Item label="房屋描述" layout="vertical">
+						<Form.Item
+							name="dec"
+							label="房屋描述"
+							layout="vertical"
+							rules={rules}
+						>
 							<TextArea
 								placeholder="请输入房屋描述信息"
 								autoSize={{ minRows: 2, maxRows: 10 }}

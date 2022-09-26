@@ -43,7 +43,6 @@ const Filter = props => {
 
 	useEffect(() => {
 		fetchFilterData()
-		return () => {}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 

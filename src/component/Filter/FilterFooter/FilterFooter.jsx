@@ -33,10 +33,8 @@ const FilterFooter = props => {
 		// 存储数据请求结果
 		let result
 
-
 		if (type === 'filter') {
 			// 筛选器请求
-
 			switch (filterType) {
 				case 'area':
 					// area 筛选器请求

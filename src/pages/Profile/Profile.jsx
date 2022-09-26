@@ -2,15 +2,17 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, Grid } from 'antd-mobile'
 
-import { BASE_URL } from './../../utils/constant'
+import { BASE_URL, TOKEN } from './../../utils/constant'
+import { API } from './../../utils/api'
 
 import styles from './Profile.module.css'
-import { useSelector } from 'react-redux'
 
 const Profile = () => {
-	const DEFAULT_AVATAR = BASE_URL + '/img/profile/avatar.png'
 	const navigate = useNavigate()
-	const isLoging = useSelector(state=>state.auth.isLoging)
+	const user = JSON.parse(localStorage.getItem('user'))
+	const token = localStorage.getItem(TOKEN)
+
+	const DEFAULT_AVATAR = BASE_URL + '/img/profile/avatar.png'
 	const menus = [
 		{ id: 1, name: '我的收藏', iconfont: 'icon-coll', to: '/collected' },
 		{ id: 2, name: '我的出租', iconfont: 'icon-ind', to: '/myrent' },
@@ -23,6 +25,16 @@ const Profile = () => {
 		{ id: 5, name: '个人资料', iconfont: 'icon-myinfo' },
 		{ id: 6, name: '联系我们', iconfont: 'icon-cust' },
 	]
+
+	const logout = async () => {
+		await API.post('/user/logout', {}, { headers: { authorization: token } })
+
+		localStorage.removeItem(TOKEN)
+		localStorage.removeItem('user')
+
+		navigate('/profile', { replace: true })
+	}
+
 	return (
 		<div className={styles.container}>
 			{/* 头部 */}
@@ -33,17 +45,21 @@ const Profile = () => {
 				{/* 个人信息 */}
 				<div className={styles.info}>
 					<div className={styles.myIcon}>
-						<img src={DEFAULT_AVATAR} alt="icon" />
+						<img
+							src={user ? BASE_URL + user.avatar : DEFAULT_AVATAR}
+							alt="icon"
+						/>
 					</div>
 
 					<div className={styles.user}>
-						<div className={styles.name}>游客</div>
-						{isLoging ? (
+						<div className={styles.name}>{user ? user.nickname : '游客'}</div>
+						{user ? (
 							<>
 								<Button
 									style={{ backgroundColor: '#21b97a', color: '#fff' }}
 									size="mini"
 									shape="rounded"
+									onClick={logout}
 								>
 									退出
 								</Button>
@@ -67,30 +83,32 @@ const Profile = () => {
 			</div>
 
 			{/* 九宫格菜单 */}
-			<Grid columns={3} className={styles.grid}>
-				{menus.map(item =>
-					item.to ? (
-						<Grid.Item key={item.id}>
-							<Link
-								to={item.to}
-								style={{ textDecoration: 'none', color: 'black' }}
-							>
+			{user ? (
+				<Grid columns={3} className={styles.grid}>
+					{menus.map(item =>
+						item.to ? (
+							<Grid.Item key={item.id}>
+								<Link
+									to={item.to}
+									style={{ textDecoration: 'none', color: 'black' }}
+								>
+									<div className={styles.menuItem}>
+										<i className={`iconfont ${item.iconfont}`} />
+										<span>{item.name}</span>
+									</div>
+								</Link>
+							</Grid.Item>
+						) : (
+							<Grid.Item key={item.id}>
 								<div className={styles.menuItem}>
 									<i className={`iconfont ${item.iconfont}`} />
 									<span>{item.name}</span>
 								</div>
-							</Link>
-						</Grid.Item>
-					) : (
-						<Grid.Item key={item.id}>
-							<div className={styles.menuItem}>
-								<i className={`iconfont ${item.iconfont}`} />
-								<span>{item.name}</span>
-							</div>
-						</Grid.Item>
-					)
-				)}
-			</Grid>
+							</Grid.Item>
+						)
+					)}
+				</Grid>
+			) : null}
 
 			{/* 加入我们 */}
 			<div className={styles.ad}>
