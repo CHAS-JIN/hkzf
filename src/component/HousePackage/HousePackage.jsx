@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import styles from './HousePackage.module.css'
 
-const HousePackage = ({ list, select }) => {
+const HousePackage = ({ list, select, addSupporting }) => {
 	// 所有房屋配置项
 	const HOUSE_PACKAGE = [
 		{
@@ -57,9 +57,9 @@ const HousePackage = ({ list, select }) => {
 		},
 	]
 
-	const [selectedItems, setSelectedItems] = useState([]);
+	const [selectedItems, setSelectedItems] = useState([])
 
-	const toggleSelected = (name) => {
+	const toggleSelected = name => {
 		let newSelectedItems
 
 		// 判断该项是否选中
@@ -70,6 +70,8 @@ const HousePackage = ({ list, select }) => {
 			// 未选中：添加到数组中
 			newSelectedItems = [...selectedItems, name]
 		}
+
+		addSupporting(newSelectedItems)
 
 		setSelectedItems(newSelectedItems)
 	}
@@ -86,11 +88,10 @@ const HousePackage = ({ list, select }) => {
 			data = HOUSE_PACKAGE.filter(d => list.includes(d.name))
 		}
 
-		
 		return data.map(item => {
 			// 判断该项是否选中
 			const isSelected = selectedItems.indexOf(item.name) > -1
-			
+
 			return (
 				<li
 					key={item.id}

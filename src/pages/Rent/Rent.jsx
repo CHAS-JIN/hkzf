@@ -1,18 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
 	Button,
-	Dialog,
 	Form,
 	ImageUploader,
 	Input,
 	Picker,
 	TextArea,
+	Toast,
 } from 'antd-mobile'
 
 import Backdrop from './../../utils/Backdrop/Backdrop'
 import MyNavBar from './../../component/MyNavBar/MyNavBar'
 import HousePackage from './../../component/HousePackage/HousePackage'
+import { API } from './../../utils/api'
+import { TOKEN } from '../../utils/constant'
 
 import styles from './Rent.module.css'
 
@@ -20,12 +22,25 @@ const Rent = () => {
 	const [roomVisible, setRoomVisible] = useState(false)
 	const [floorVisible, setFloorVisible] = useState(false)
 	const [oriVisible, setOriVisible] = useState(false)
-	const [houseImg, setHouseImg] = useState([])
+	const [fileList, setFileList] = useState([])
+
+	const comInput = useRef()
+
+	const [form] = Form.useForm()
 
 	const navigate = useNavigate()
 
 	const { state } = useLocation()
-	
+
+	const token = localStorage.getItem(TOKEN)
+
+	useEffect(() => {
+		if (state) {
+			form.setFieldValue('community', state.communityName)
+		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [state])
+
 	// 户型
 	const roomTypeData = [
 		[
@@ -60,19 +75,48 @@ const Rent = () => {
 		],
 	]
 
-	const upload = async file => {
-		return new Promise((resolve, reject) => {
-			const reader = new FileReader()
-			reader.readAsDataURL(file)
-			reader.onload = () => {
-				resolve({
-					url: reader.result,
-				})
-			}
-		})
+	const rules = [{ required: true, message: '不能为空！' }]
+
+	const addSupporting = data => {
+		form.setFieldValue('supporting', data.join('|'))
 	}
 
-	const rules = [{ required: true, message: '不能为空！' }]
+	const saveImg = file => {
+		setFileList(pre => [...pre, file])
+		return {
+			file: file,
+			url: URL.createObjectURL(file),
+		}
+	}
+
+	const submit = async () => {
+		const formData = new FormData()
+		fileList.forEach(item => formData.append('file', item))
+		const updImgRes = await API.post('/houses/image', formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+		})
+
+		const data = form.getFieldsValue(true)
+
+		data.community = state.community
+		data.floor = data.floor[0]
+		data.oriented = data.oriented[0]
+		data.roomType = data.roomType[0]
+		data.houseImg = updImgRes.data.body.join('|')
+
+		const udpDataRes = await API.post('/user/houses', data, {
+			headers: { authorization: token },
+		})
+
+		if (udpDataRes.data.status === 200) {
+			Toast.config('发布成功', 1, null, false)
+			navigate('/myrent', { replace: true })
+		} else {
+			Toast.config('服务器偷懒了，请稍后再试~', 2, null, false)
+		}
+	}
 
 	return (
 		<Backdrop>
@@ -80,9 +124,16 @@ const Rent = () => {
 				<MyNavBar>出租房屋</MyNavBar>
 				<div className={styles.wrapper}>
 					<Form
+						form={form}
 						layout="horizontal"
 						footer={
-							<Button block type="submit" color="primary" size="large">
+							<Button
+								block
+								type="submit"
+								color="primary"
+								size="large"
+								onClick={submit}
+							>
 								提交
 							</Button>
 						}
@@ -94,14 +145,7 @@ const Rent = () => {
 							onClick={() => navigate('/search', { state: { isRent: true } })}
 							rules={rules}
 						>
-							{/* <Input
-								placeholder="点击搜索小区名称"
-								readOnly
-								value='111'
-							/> */}
-							<span style={{ color: state?.communityName ? 'black' : '#ccc' }}>
-								{state?.communityName ?? '点击搜索小区名称'}
-							</span>
+							<Input ref={comInput} placeholder="点击搜索小区名称" readOnly />
 						</Form.Item>
 
 						{/* 租金 */}
@@ -116,7 +160,7 @@ const Rent = () => {
 
 						{/* 建筑面积 */}
 						<Form.Item
-							name="area"
+							name="size"
 							label="建筑面积"
 							extra="平方米"
 							rules={rules}
@@ -126,14 +170,11 @@ const Rent = () => {
 
 						{/* 户型 */}
 						<Form.Item
-							name="type"
+							name="roomType"
 							rules={rules}
 							label="户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型"
-							onClick={(e, ref) => {
-								console.log('e', e.target)
-								console.log('ref', ref)
-								setRoomVisible(true)
-							}}
+							onClick={() => setRoomVisible(true)}
+							trigger="onConfirm"
 						>
 							<Picker
 								columns={roomTypeData}
@@ -158,6 +199,7 @@ const Rent = () => {
 							label="所在楼层"
 							onClick={() => setFloorVisible(true)}
 							rules={rules}
+							trigger="onConfirm"
 						>
 							<Picker
 								columns={floorData}
@@ -183,10 +225,11 @@ const Rent = () => {
 
 						{/* 朝向 */}
 						<Form.Item
-							name="ori"
+							name="oriented"
 							rules={rules}
 							label="朝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;向"
 							onClick={() => setOriVisible(true)}
+							trigger="onConfirm"
 						>
 							<Picker
 								columns={orientedData}
@@ -222,36 +265,31 @@ const Rent = () => {
 
 						{/* 房屋图片 */}
 						<Form.Item
-							name="image"
+							name="houseImg"
 							label="房屋图片"
 							layout="vertical"
 							rules={rules}
 						>
 							<ImageUploader
 								multiple={true}
-								value={houseImg}
-								// upload={upload}
-								onDelete={() => {
-									return Dialog.confirm({
-										content: '是否确认删除',
-									})
-								}}
+								// value={fileList}
+								upload={saveImg}
 							/>
 						</Form.Item>
 
 						{/* 房屋配置 */}
 						<Form.Item
-							name="tags"
+							name="supporting"
 							label="房屋配置"
 							layout="vertical"
 							rules={rules}
 						>
-							<HousePackage select />
+							<HousePackage select addSupporting={addSupporting} />
 						</Form.Item>
 
 						{/* 房屋描述 */}
 						<Form.Item
-							name="dec"
+							name="description"
 							label="房屋描述"
 							layout="vertical"
 							rules={rules}

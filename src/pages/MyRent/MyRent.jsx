@@ -34,7 +34,9 @@ const MyRent = () => {
 	return (
 		<Backdrop>
 			<div className={styles.container}>
-				<MyNavBar right={right}>我的出租</MyNavBar>
+				<MyNavBar right={right} path="/profile">
+					我的出租
+				</MyNavBar>
 				<div className={styles.wrapper}>
 					{!rentData ? (
 						<img src={empty} alt="empty" />

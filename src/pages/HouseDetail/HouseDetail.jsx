@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CloseOutline, StarFill, StarOutline } from 'antd-mobile-icons'
-import { Button, Tag, Toast } from 'antd-mobile'
+import { Button, Modal, Tag, Toast } from 'antd-mobile'
 import Map from 'react-bmapgl/dist/Map/Map'
 import Label from 'react-bmapgl/dist/Overlay/Label'
 
@@ -99,11 +99,15 @@ const HouseDetail = () => {
 
 	// 是否收藏
 	const fetchCollect = async () => {
-		const res = await API.get(`/user/favorites/${code}`, {
-			headers: { authorization: token },
-		})
-		const { isFavorite } = res.data.body
-		setCollected(isFavorite)
+		if (token) {
+			const res = await API.get(`/user/favorites/${code}`, {
+				headers: { authorization: token },
+			})
+			const { isFavorite } = res.data.body
+			setCollected(isFavorite)
+		} else {
+			return
+		}
 	}
 
 	// 返回上一页
@@ -112,16 +116,42 @@ const HouseDetail = () => {
 	}
 
 	const changeCollect = async () => {
-		if (collected) {
-			await API.delete(`/user/favorites/${code}`, {
-				headers: { authorization: token },
-			})
-			setCollected(false)
+		if (token) {
+			if (collected) {
+				await API.delete(`/user/favorites/${code}`, {
+					headers: { authorization: token },
+				})
+				setCollected(false)
+			} else {
+				await API.post(
+					`/user/favorites/${code}`,
+					{},
+					{
+						headers: { authorization: token },
+					}
+				)
+				setCollected(true)
+			}
 		} else {
-			await API.post(`/user/favorites/${code}`,{}, {
-				headers: { authorization: token },
+			Modal.show({
+				content: '该操作需要登录，前往登录吗？',
+				actions: [
+					{
+						key: 'cancel',
+						text: '取消',
+						onClick: () => Modal.clear(),
+					},
+					{
+						key: 'confirm',
+						text: '确定',
+						onClick: () => {
+							Modal.clear()
+							navigate('/login')
+						},
+						primary: true,
+					},
+				],
 			})
-			setCollected(true)
 		}
 	}
 

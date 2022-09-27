@@ -6,7 +6,13 @@ const MyNavBar = props => {
 	const navigate = useNavigate()
 	return (
 		<NavBar
-			onBack={() => navigate(-1)}
+			onBack={() => {
+				if (!props.path) {
+					navigate(-1)
+				} else {
+					navigate(props.path, { replace: true })
+				}
+			}}
 			style={{ backgroundColor: '#f6f5f6' }}
 			right={props.right ? props.right : null}
 		>
