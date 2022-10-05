@@ -9,8 +9,11 @@ const HouseItem = ({ data }) => {
 	const { desc, houseImg, price, tags, title, houseCode: code } = data
 
 	const navigate = useNavigate()
+
+	// 跳转到房屋详情页
 	const showDetail = () => {
 		if (code) {
+			// 将房屋标识通过路由发送到 HouseDetail 组件
 			navigate(`/detail/${code}`)
 		} else {
 			return

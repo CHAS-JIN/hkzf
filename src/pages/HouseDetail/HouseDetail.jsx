@@ -17,7 +17,7 @@ import styles from './HouseDetail.module.css'
 const HouseDetail = () => {
 	const token = localStorage.getItem(TOKEN)
 
-	// 从路径中提取参数
+	// 提取从 HouseItem 组件通过路由传来的参数
 	const { code } = useParams()
 
 	// 存储房屋信息
@@ -115,7 +115,11 @@ const HouseDetail = () => {
 		navigate(-1)
 	}
 
+	// 收藏/取消收藏
 	const changeCollect = async () => {
+		// 是否登录
+		// 是，则修改收藏状态
+		// 否，则提示登录
 		if (token) {
 			if (collected) {
 				await API.delete(`/user/favorites/${code}`, {

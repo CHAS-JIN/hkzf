@@ -16,6 +16,7 @@ const Collected = () => {
 
 	const [favData, setFavData] = useState(null)
 
+	// 请求数据
 	const fetchData = async () => {
 		const token = localStorage.getItem(TOKEN)
 		const res = await API.get('/user/favorites', {

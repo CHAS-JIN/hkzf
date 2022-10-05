@@ -18,6 +18,7 @@ function App() {
 	const cityLabel = useSelector(state=>state.curCityInfo.label)
 	const dispatch = useDispatch()
 
+	// 获取当前城市
 	useEffect(() => {
 		const curCity = new window.BMapGL.LocalCity()
 		curCity.get(async res => {
@@ -31,6 +32,7 @@ function App() {
 				dispatch(updCurCityInfo(result.data.body))
 			}
 		})
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
 
 	// 格式化路径

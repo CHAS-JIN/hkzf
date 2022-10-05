@@ -11,6 +11,8 @@ import styles from './Login.module.css'
 const Login = () => {
 	const navigate = useNavigate()
 	const [isReg, setIsReg] = useState(false)
+
+	// 表单实体对象
 	const [form] = Form.useForm()
 
 	// 返回上一页
@@ -18,17 +20,26 @@ const Login = () => {
 		navigate(-1)
 	}
 
+	// 提交数据
 	const submit = () => {
+		// 获取用户名、密码
 		const data = form.getFieldsValue(['username', 'password'])
 
+		// 登录函数
 		const login = async () => {
+
+			//登录请求
 			const res = await API.post('/user/login', data)
 
 			const { status, description, body } = res.data
 
 			if (status === 200) {
+				// 登录成功
+
+				// token 存入本地存储
 				localStorage.setItem(TOKEN, body.token)
 
+				// 获取用户信息请求
 				const userInfo = await API.get('/user', {
 					headers: { authorization: body.token },
 				})
@@ -36,16 +47,22 @@ const Login = () => {
 				const { status, body: userbody } = userInfo.data
 
 				if (status === 200) {
+					// 获取信息成功
+
+					// 将用户信息转为 JSON 格式数据存入本地存储
 					localStorage.setItem('user',JSON.stringify(userbody))
 				}
 
+				// 提示登录成功
 				Toast.show({
 					icon: 'success',
 					content: description,
 				})
-
+				
+				// 返回
 				back()
 			} else {
+				// 登录失败提示
 				Toast.show({
 					icon: 'fail',
 					content: description,
@@ -53,14 +70,21 @@ const Login = () => {
 			}
 		}
 
+		// 注册函数
 		const regist = async () => {
+
+			// 注册请求
 			const res = await API.post('/user/registered', data)
 
 			const { status, description } = res.data
 
 			if (status === 200) {
+				// 注册成功
+
+				//登录
 				login()
 			} else {
+				// 注册失败提示
 				Toast.show({
 					icon: 'fail',
 					content: description,
@@ -68,6 +92,7 @@ const Login = () => {
 			}
 		}
 
+		// 判断注册还是登录
 		if (!isReg) {
 			login()
 		} else {
@@ -75,6 +100,7 @@ const Login = () => {
 		}
 	}
 
+	// 表单底部按钮
 	const footer = () => {
 		return (
 			<div className={styles.footer}>
@@ -84,7 +110,9 @@ const Login = () => {
 					fill="outline"
 					color="primary"
 					onClick={() =>
+						// 切换登录/注册
 						setIsReg(pre => {
+							// 注册切换成登录时，重置确认密码输入框的值
 							if (form.getFieldValue('passwordConfirm')) {
 								form.resetFields(['passwordConfirm'])
 							}
@@ -117,6 +145,7 @@ const Login = () => {
 					<div className={styles.main}>
 						<Form form={form} mode="card" footer={footer()}>
 							<Form.Item
+								// 表单项的标识，用于获取、设置值等操作
 								name="username"
 								rules={[
 									{
@@ -147,6 +176,7 @@ const Login = () => {
 							{!isReg ? null : (
 								<Form.Item
 									name="passwordConfirm"
+									// 依赖项，当依赖项改变时重新触发验证
 									dependencies={['password']}
 									rules={[
 										{
@@ -154,6 +184,7 @@ const Login = () => {
 											message: '两次密码不一致！',
 											type: 'string',
 											whitespace: true,
+											// 验证器，需要返回 Promise
 											validator: (_, value) => {
 												if (value === form.getFieldValue('password')) {
 													return Promise.resolve()

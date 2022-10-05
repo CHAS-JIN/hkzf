@@ -59,6 +59,7 @@ const HousePackage = ({ list, select, addSupporting }) => {
 
 	const [selectedItems, setSelectedItems] = useState([])
 
+	// 选中状态切换函数
 	const toggleSelected = name => {
 		let newSelectedItems
 
@@ -71,11 +72,14 @@ const HousePackage = ({ list, select, addSupporting }) => {
 			newSelectedItems = [...selectedItems, name]
 		}
 
+		// 将数据传回父组件（Rent 组件）
 		addSupporting(newSelectedItems)
 
+		// 将新数组保存
 		setSelectedItems(newSelectedItems)
 	}
 
+	// 渲染配置项
 	const renderItems = () => {
 		let data
 

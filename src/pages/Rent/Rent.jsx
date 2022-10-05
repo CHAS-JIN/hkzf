@@ -26,19 +26,22 @@ const Rent = () => {
 
 	const comInput = useRef()
 
+	// 创建表单实例
 	const [form] = Form.useForm()
 
 	const navigate = useNavigate()
 
+	// 接收 Search 组件通过路由传来的参数 community, communityName
 	const { state } = useLocation()
 
 	const token = localStorage.getItem(TOKEN)
 
+	// 监听 state 数据变化，设置表单值
 	useEffect(() => {
 		if (state) {
 			form.setFieldValue('community', state.communityName)
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state])
 
 	// 户型
@@ -75,12 +78,15 @@ const Rent = () => {
 		],
 	]
 
+	// 表单验证规则
 	const rules = [{ required: true, message: '不能为空！' }]
 
+	// 设置 房屋配置 表单值
 	const addSupporting = data => {
 		form.setFieldValue('supporting', data.join('|'))
 	}
 
+	// 保存上传的图片
 	const saveImg = file => {
 		setFileList(pre => [...pre, file])
 		return {
@@ -89,27 +95,35 @@ const Rent = () => {
 		}
 	}
 
+	// 上传图片以及表单数据
 	const submit = async () => {
+		// 后端要求以 FormData 形式传值
 		const formData = new FormData()
 		fileList.forEach(item => formData.append('file', item))
+
+		// 上传图片
 		const updImgRes = await API.post('/houses/image', formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 			},
 		})
 
+		// 获取所有表单数据
 		const data = form.getFieldsValue(true)
 
+		// 格式化数据
 		data.community = state.community
 		data.floor = data.floor[0]
 		data.oriented = data.oriented[0]
 		data.roomType = data.roomType[0]
 		data.houseImg = updImgRes.data.body.join('|')
 
+		// 上传数据
 		const udpDataRes = await API.post('/user/houses', data, {
 			headers: { authorization: token },
 		})
 
+		// 判断是否上传成功
 		if (udpDataRes.data.status === 200) {
 			Toast.config('发布成功', 1, null, false)
 			navigate('/myrent', { replace: true })
@@ -272,7 +286,6 @@ const Rent = () => {
 						>
 							<ImageUploader
 								multiple={true}
-								// value={fileList}
 								upload={saveImg}
 							/>
 						</Form.Item>

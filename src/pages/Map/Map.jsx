@@ -66,7 +66,6 @@ const Map = () => {
 				map.enableScrollWheelZoom(true)
 
 				// 渲染覆盖物
-				// renderOverlays(map, value)
 				renderOverlays(value)
 			},
 			label

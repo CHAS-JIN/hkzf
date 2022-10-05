@@ -20,8 +20,10 @@ const HouseList = () => {
 
 	const dispatch = useDispatch()
 
+	// 接收首页导航（Nav 组件）传来的出租类型参数
 	const { rentType } = useParams()
 
+	// 接收 Search 组件传来的搜索结果
 	const { state } = useLocation()
 
 	useEffect(() => {
@@ -43,6 +45,8 @@ const HouseList = () => {
 			},
 		})
 		Toast.clear()
+
+		// 更新数据
 		dispatch(updHouseInfo(result))
 	}
 
@@ -52,6 +56,7 @@ const HouseList = () => {
 				<SearchBar />
 			</div>
 
+			{/* 筛选器 */}
 			<Filter value={value} />
 
 			<div className={styles.items}>

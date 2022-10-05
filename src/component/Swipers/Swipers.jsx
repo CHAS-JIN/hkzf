@@ -14,6 +14,7 @@ const Swipers = ({ code, imgSrc }) => {
 			setSwiper(result.data.body)
 		}
 
+		// 判断是否是房屋详情页，根据判断结果请求数据
 		if (code) {
 			setSwiper(imgSrc)
 		} else {

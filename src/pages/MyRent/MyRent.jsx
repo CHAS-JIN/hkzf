@@ -17,6 +17,7 @@ const MyRent = () => {
 
 	const [rentData, setRentData] = useState(null)
 
+	// 获取数据
 	const fetchData = async () => {
 		const token = localStorage.getItem(TOKEN)
 		const res = await API.get('/user/houses', {
@@ -25,6 +26,7 @@ const MyRent = () => {
 		setRentData(res.data.body)
 	}
 
+	// 头部导航右部
 	const right = (
 		<Link to="/rent" style={{ textDecoration: 'none', fontSize: '30rem' }}>
 			去出租

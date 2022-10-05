@@ -9,10 +9,14 @@ import styles from './Profile.module.css'
 
 const Profile = () => {
 	const navigate = useNavigate()
+
+	// 将本地存储中的 用户数据 转为对象
 	const user = JSON.parse(localStorage.getItem('user'))
 	const token = localStorage.getItem(TOKEN)
 
 	const DEFAULT_AVATAR = BASE_URL + '/img/profile/avatar.png'
+	
+	// 菜单数据
 	const menus = [
 		{ id: 1, name: '我的收藏', iconfont: 'icon-coll', to: '/collected' },
 		{ id: 2, name: '我的出租', iconfont: 'icon-ind', to: '/myrent' },
@@ -26,12 +30,16 @@ const Profile = () => {
 		{ id: 6, name: '联系我们', iconfont: 'icon-cust' },
 	]
 
+	// 登出
 	const logout = async () => {
+		// 登出请求
 		await API.post('/user/logout', {}, { headers: { authorization: token } })
 
+		// 移除本地存储的 token 和 用户数据
 		localStorage.removeItem(TOKEN)
 		localStorage.removeItem('user')
 
+		// 通过使用路由跳转重新加载页面
 		navigate('/profile', { replace: true })
 	}
 
@@ -82,7 +90,7 @@ const Profile = () => {
 				</div>
 			</div>
 
-			{/* 九宫格菜单 */}
+			{/* 菜单 */}
 			{user ? (
 				<Grid columns={3} className={styles.grid}>
 					{menus.map(item =>
